@@ -27,8 +27,7 @@ def item_to_dict(item, include_body=False):
         'reminder_is_set': item.reminder_is_set,
         'reminder_due_by': item.reminder_due_by.ewsformat() if item.reminder_due_by else None,
         'reminder_minutes_before_start': item.reminder_minutes_before_start,
-        'last_modified_name': item.last_modified_name,
-        'last_modified_time': item.last_modified_time.ewsformat() if item.last_modified_time else None
+        'last_modified_name': item.last_modified_name
     }
     if not include_body:
         del result['body']
