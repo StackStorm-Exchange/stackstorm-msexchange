@@ -8,13 +8,15 @@ class GetCalendarItems(BaseExchangeAction):
             start__lt=self.timezone.localize(EWSDateTime(end_year, end_month, end_day)),
             end__gt=self.timezone.localize(EWSDateTime(start_year, start_month, start_day)),
         )
-        results = []
+
         self.logger.info('Found {0} calendar entries'.format(len(items)))
-        for item in items:
-            results.append({
-                'start': item.start,
-                'end': item.end,
-                'subject': item.subject,
-                'body': item.body,
-                'location': item.location})
-        return results
+        return [self._format_item(item) for item in items]
+
+    def _format_item(self, item):
+        return {
+            'start': item.start,
+            'end': item.end,
+            'subject': item.subject,
+            'body': item.body,
+            'location': item.location
+        }
