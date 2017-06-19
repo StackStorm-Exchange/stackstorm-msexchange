@@ -13,7 +13,6 @@ def item_to_dict(item, include_body=False):
     result = {
         'id': item.item_id,
         'changekeyid': item.changekey,
-        'mime_content': item.mime_content,
         'subject': item.subject,
         'sensitivity': item.sensitivity,
         'text_body': item.text_body,
