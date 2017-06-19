@@ -2,3 +2,4 @@
 primary_smtp_address: "bob@company.com"
 username: "bob@company.com"
 password: "B0bsPassword!"
+timezone: "Europe/London"

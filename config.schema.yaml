@@ -22,3 +22,8 @@
     type: "boolean"
     default: true
     required: true
+  timezone:
+    description: "Timezone of user"
+    type: "string"
+    default: "Europe/London"
+    required: true

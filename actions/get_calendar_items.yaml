@@ -1,0 +1,26 @@
+---
+name: get_calendar_items
+pack: exchange
+runner_type: run-python
+description: Get the items in the calendar within a date range
+enabled: true
+entry_point: get_calendar_items.py
+parameters:
+    start_year:
+        type: integer
+        required: true
+    start_day:
+        type: integer
+        required: true
+    start_month:
+        type: integer
+        required: true
+    end_year:
+        type: integer
+        required: true
+    end_day:
+        type: integer
+        required: true
+    end_month:
+        type: integer
+        required: true
