@@ -2,6 +2,7 @@
 class_name: "ItemSensor"
 entry_point: "item_sensor.py"
 description: "Sensor that detects items."
+polling_interval: 60
 trigger_types:
   -
     name: "exchange_new_item"
