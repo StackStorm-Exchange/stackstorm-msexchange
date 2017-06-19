@@ -43,11 +43,12 @@ class ItemSensor(PollingSensor):
         stored_date = self._get_last_date()
         if not stored_date:
             stored_date = datetime.now()
-        start_date = EWSDateTime.from_datetime(stored_date)
-        items = self.account.root.get_folder_by_name(self.sensor_folder).filter(is__read=False).filter(datetime_received__gt=start_date).values('item_id', 'subject', 'body', 'datetime_received')
-        self._logger.info("Found {0} items".format(len(items)))
-        for item in items:
-            self._sensor_service.dispatch(trigger='exchange_new_item', payload=item)
+        start_date = self._timezone.localize(EWSDateTime.from_datetime(stored_date))
+        items = self.account.root.get_folder_by_name(self.sensor_folder).filter(is_read=False).filter(datetime_received__gt=start_date)
+
+        self._logger.info("Found {0} items".format(items.count()))
+        for payload in items.values('item_id', 'subject', 'body', 'datetime_received'):
+            self._sensor_service.dispatch(trigger='exchange_new_item', payload=payload)
             self._set_last_date(item['datetime_received'])
 
     def cleanup(self):
