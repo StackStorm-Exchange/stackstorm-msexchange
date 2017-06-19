@@ -1,7 +1,7 @@
 ---
 name: get_folder
 pack: exchange
-runner_type: "python"
+runner_type: run-python
 description: Get the details of an email folder
 enabled: true
 entry_point: get_folder.sh
