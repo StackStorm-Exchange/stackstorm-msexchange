@@ -15,8 +15,8 @@ parameters:
         description: Contents of the email
         required: true
     to_recipients:
-        type: string
-        description: To recipients, CSV delimited
+        type: lists
+        description: To recipients
         required: true
     store:
         type: boolean

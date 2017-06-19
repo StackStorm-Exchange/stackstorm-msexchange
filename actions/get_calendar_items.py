@@ -14,8 +14,8 @@ class GetCalendarItems(BaseExchangeAction):
 
     def _format_item(self, item):
         return {
-            'start': item.start,
-            'end': item.end,
+            'start': item.start.ewsformat(),
+            'end': item.end.ewsformat(),
             'subject': item.subject,
             'body': item.body,
             'location': item.location

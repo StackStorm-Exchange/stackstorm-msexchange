@@ -4,7 +4,7 @@ from exchangelib import Message, Mailbox
 
 class SendEmailAction(BaseExchangeAction):
     def run(self, subject, body, to_recipients, store):
-        rcpts = [Mailbox(email_address=rcpt) for rcpt in to_recipients.split(',')]
+        rcpts = [Mailbox(email_address=rcpt) for rcpt in to_recipients]
         mail = Message(
             account=self.account,
             subject=subject,
