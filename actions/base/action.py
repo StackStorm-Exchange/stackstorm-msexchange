@@ -1,6 +1,8 @@
 from collections import namedtuple
+import os
 
 from st2actions.runners.pythonrunner import Action
+from st2client.client import Client
 from st2client.models import KeyValuePair
 from exchangelib import Account, ServiceAccount, Configuration, DELEGATE
 
@@ -10,6 +12,9 @@ CacheEntry = namedtuple('CacheEntry', 'ews_url ews_auth_type primary_smtp_addres
 class BaseExchangeAction(Action):
     def __init__(self, config):
         super(BaseExchangeAction, self).__init__(config)
+        api_url = os.environ.get('ST2_ACTION_API_URL', None)
+        token = os.environ.get('ST2_ACTION_AUTH_TOKEN', None)
+        self.client = Client(api_url=api_url, token=token)
         self._credentials = ServiceAccount(
             username=config['username'],
             password=config['password'])
@@ -53,16 +58,19 @@ class BaseExchangeAction(Action):
         ews_url = self.account.protocol.service_endpoint
         ews_auth_type = self.account.protocol.auth_type
         primary_smtp_address = self.account.primary_smtp_address
-        self.action_service.set_value(name='exchange_ews_url', value=ews_url)
-        self.action_service.set_value(name='exchange_ews_auth_type', value=ews_auth_type)
-        self.action_service.set_value(name='exchange_primary_smtp_address', value=primary_smtp_address)
+        self.client.keys.update(KeyValuePair(name='exchange_ews_url',
+            value=ews_url))
+        self.client.keys.update(KeyValuePair(name='exchange_ews_auth_type',
+            value=ews_auth_type))
+        self.client.keys.update(KeyValuePair(name='exchange_primary_smtp_address',
+            value=primary_smtp_address))
 
     def _get_cache(self):
-        ews_url = self.action_service.get_value(
+        ews_url = self.client.keys.get_by_name(
             name='exchange_ews_url')
-        ews_auth_type = self.action_service.get_value(
+        ews_auth_type = self.client.keys.get_by_name(
             name='exchange_ews_auth_type')
-        primary_smtp_address = self.action_service.get_value(
+        primary_smtp_address = self.client.keys.get_by_name(
             name='exchange_primary_smtp_address')
         if ews_url:
             return CacheEntry(
