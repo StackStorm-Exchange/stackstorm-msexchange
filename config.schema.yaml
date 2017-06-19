@@ -27,3 +27,8 @@
     type: "string"
     default: "Europe/London"
     required: true
+  sensor_folder:
+    default: "Inbox"
+    type: string
+    description: "Folder to monitor in the sensor"
+    required: true

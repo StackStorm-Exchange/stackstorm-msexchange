@@ -1,0 +1,10 @@
+---
+class_name: "ItemSensor"
+entry_point: "item_sensor.py"
+description: "Sensor that detects items."
+trigger_types:
+  -
+    name: "exchange_new_item"
+    description: "New item in folder"
+    payload_schema:
+      type: "object"
