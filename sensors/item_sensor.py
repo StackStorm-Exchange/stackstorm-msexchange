@@ -26,7 +26,7 @@ class ItemSensor(PollingSensor):
             self.account = Account(
                 primary_smtp_address=self.primary_smtp_address,
                 credentials=self._credentials,
-                autodiscover=self.accountautodiscover,
+                autodiscover=True,
                 access_type=DELEGATE)
         else:
             config = Configuration(
