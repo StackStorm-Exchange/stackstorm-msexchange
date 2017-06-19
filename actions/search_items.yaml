@@ -13,3 +13,8 @@ parameters:
         type: string
         description: Subject of the email
         required: false
+    include_body:
+        type: boolean
+        description: Include the body of the message in the responses
+        default: true
+        required: false

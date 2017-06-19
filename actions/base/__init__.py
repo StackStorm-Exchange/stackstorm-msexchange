@@ -9,8 +9,8 @@ def folder_to_dict(folder):
     }
 
 
-def item_to_dict(item):
-    return {
+def item_to_dict(item, include_body=False):
+    result = {
         'id': item.item_id,
         'changekeyid': item.changekey,
         'mime_content': item.mime_content,
@@ -23,7 +23,6 @@ def item_to_dict(item):
         'categories': item.categories,
         'importance': item.importance,
         'is_draft': item.is_draft,
-        'headers': item.headers,
         'datetime_sent': item.datetime_sent.ewsformat() if item.datetime_sent else None,
         'datetime_created': item.datetime_created.ewsformat() if item.datetime_created else None,
         'reminder_is_set': item.reminder_is_set,
@@ -32,3 +31,7 @@ def item_to_dict(item):
         'last_modified_name': item.last_modified_name,
         'last_modified_time': item.last_modified_time.ewsformat() if item.last_modified_time else None
     }
+    if not include_body:
+        del result['body']
+        del result['text_body']
+    return result
