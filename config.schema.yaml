@@ -4,7 +4,7 @@
     required: true
     type: "string"
   username:
-    description: "Logon username, either NT style DOMAIN\user or FQDN style user@fulldomain.com"
+    description: "Logon username, either NT style DOMAIN\\user or FQDN style user@fulldomain.com"
     type: "string"
     required: true
     secret: true
