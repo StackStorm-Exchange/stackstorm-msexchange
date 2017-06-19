@@ -1,0 +1,15 @@
+---
+name: search_items
+pack: exchange
+runner_type: run-python
+description: Search and return items in a folder
+enabled: true
+entry_point: search_items.py
+parameters:
+    folder:
+        type: string
+        description: Folder to look within
+    subject:
+        type: string
+        description: Subject of the email
+        required: false
