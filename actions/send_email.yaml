@@ -15,7 +15,7 @@ parameters:
         description: Contents of the email
         required: true
     to_recipients:
-        type: lists
+        type: list
         description: To recipients
         required: true
     store:
