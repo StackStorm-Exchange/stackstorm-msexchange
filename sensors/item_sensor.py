@@ -1,4 +1,5 @@
 from datetime import datetime
+import time
 
 from st2reactor.sensor.base import PollingSensor
 from exchangelib import Account, ServiceAccount, Configuration, DELEGATE, EWSDateTime, EWSTimeZone
@@ -44,12 +45,13 @@ class ItemSensor(PollingSensor):
         if not stored_date:
             stored_date = datetime.now()
         start_date = self._timezone.localize(EWSDateTime.from_datetime(stored_date))
-        items = self.account.root.get_folder_by_name(self.sensor_folder).filter(is_read=False).filter(datetime_received__gt=start_date)
+        target = self.account.root.get_folder_by_name(self.sensor_folder)
+        items = target.filter(is_read=False).filter(datetime_received__gt=start_date)
 
         self._logger.info("Found {0} items".format(items.count()))
         for payload in items.values('item_id', 'subject', 'body', 'datetime_received'):
             self._sensor_service.dispatch(trigger='exchange_new_item', payload=payload)
-            self._set_last_date(item['datetime_received'])
+            self._set_last_date(payload['datetime_received'])
 
     def cleanup(self):
         # This is called when the st2 system goes down. You can perform cleanup operations like
