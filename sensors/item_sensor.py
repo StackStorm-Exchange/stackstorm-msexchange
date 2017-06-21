@@ -19,7 +19,7 @@ class ItemSensor(PollingSensor):
         self.sensor_folder = config['sensor_folder']
         try:
             self.server = config['server']
-            self.autodiscover = False
+            self.autodiscover = False if self.server is not None else True
         except KeyError:
             self.autodiscover = True
 
