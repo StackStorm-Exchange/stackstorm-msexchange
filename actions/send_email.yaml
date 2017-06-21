@@ -1,0 +1,25 @@
+---
+name: send_email
+pack: exchange
+runner_type: run-python
+description: Send an email
+enabled: true
+entry_point: send_email.py
+parameters:
+    subject:
+        type: string
+        description: Subject of the email
+        required: true
+    body:
+        type: string
+        description: Contents of the email
+        required: true
+    to_recipients:
+        type: array
+        description: To recipients
+        required: true
+    store:
+        type: boolean
+        default: true
+        description: Store the email in the Sent folder once sent
+        required: true

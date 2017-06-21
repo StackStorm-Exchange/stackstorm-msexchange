@@ -1,0 +1,12 @@
+---
+name: list_folders
+pack: exchange
+runner_type: run-python
+description: Get list of folders within a folder
+enabled: true
+entry_point: list_folders.py
+parameters:
+    root:
+        type: string
+        description: Folder to start from, if not provided looks at root
+        required: false
