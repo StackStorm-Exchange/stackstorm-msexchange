@@ -1,6 +1,6 @@
 ---
 name: get_folder
-pack: exchange
+pack: msexchange
 runner_type: run-python
 description: Get the details of an email folder
 enabled: true

@@ -9,3 +9,12 @@ trigger_types:
     description: "New item in folder"
     payload_schema:
       type: "object"
+      properties:
+          item_id:
+            type: "string"
+          subject:
+            type: "string"
+          body:
+            type: "string"
+          datetime_received:
+            type: "string"

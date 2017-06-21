@@ -1,6 +1,6 @@
 ---
 name: send_email
-pack: exchange
+pack: msexchange
 runner_type: run-python
 description: Send an email
 enabled: true

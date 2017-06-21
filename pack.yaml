@@ -1,5 +1,5 @@
 ---
-ref: exchange
+ref: msexchange
 name: "Microsoft Exchange"
 description: "A pack for interfacing with a Microsoft Exchange server"
 keywords:

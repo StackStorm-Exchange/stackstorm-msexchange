@@ -1,6 +1,6 @@
 ---
 name: list_folders
-pack: exchange
+pack: msexchange
 runner_type: run-python
 description: Get list of folders within a folder
 enabled: true

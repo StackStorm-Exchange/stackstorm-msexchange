@@ -1,6 +1,6 @@
 ---
 name: get_calendar_items
-pack: exchange
+pack: msexchange
 runner_type: run-python
 description: Get the items in the calendar within a date range
 enabled: true
