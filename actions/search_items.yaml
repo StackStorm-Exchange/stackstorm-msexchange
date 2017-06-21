@@ -1,6 +1,6 @@
 ---
 name: search_items
-pack: exchange
+pack: msexchange
 runner_type: run-python
 description: Search and return items in a folder
 enabled: true
