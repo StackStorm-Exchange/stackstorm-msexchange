@@ -21,7 +21,7 @@ class BaseExchangeAction(Action):
         self.timezone = EWSTimeZone.timezone(config['timezone'])
         try:
             server = config['server']
-            autodiscover = False
+            autodiscover = False if server is not None else True
         except KeyError:
             autodiscover = True
         cache = self._get_cache()
