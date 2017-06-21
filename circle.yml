@@ -23,3 +23,4 @@ deployment:
     owner: StackStorm-Exchange
     commands:
       - ~/ci/.circle/deployment
+      - ~/ci/.circle/deployment
