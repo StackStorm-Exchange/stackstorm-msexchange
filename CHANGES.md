@@ -1,6 +1,11 @@
 # Change Log
 
+## 0.1.3
+
+* Set default folder to `Inbox` for `search_items`
+* Fixed sensor bug with config object handling for non-autodiscovery systems 
+
 ## 0.1.2
 
 * Pinned exchangelib version to avoid `get_folder_by_name()` deprecation
-* Fixed bug with config object handling for non-autodiscovery systems
+* Fixed actions bug with config object handling for non-autodiscovery systems

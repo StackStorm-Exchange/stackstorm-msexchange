@@ -9,6 +9,7 @@ parameters:
     folder:
         type: string
         description: Folder to look within
+        default: "Inbox"
     subject:
         type: string
         description: Subject of the email

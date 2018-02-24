@@ -31,12 +31,12 @@ class ItemSensor(PollingSensor):
                 autodiscover=True,
                 access_type=DELEGATE)
         else:
-            config = Configuration(
+            ms_config = Configuration(
                 server=self.server,
                 credentials=self._credentials)
             self.account = Account(
                 primary_smtp_address=self.primary_smtp_address,
-                config=config,
+                config=ms_config,
                 autodiscover=False,
                 access_type=DELEGATE)
 
