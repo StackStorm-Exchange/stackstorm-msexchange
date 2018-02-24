@@ -9,7 +9,7 @@ Exchange Server 2010, 2013 and 2016 as well as Office 365 hosted Exchange accoun
 * `get_calendar_items` - Get a list of calendar items within a date range
 * `get_folder` - Get information about a folder (mail, contact, meta)
 * `list_folders` - List all folders or subfolders within a folder
-* `search_items` - Search for items by subject within a folder
+* `search_items` - Search for items by subject within a folder (default folder Inbox)
 * `send_email` - Send an email
 
 
