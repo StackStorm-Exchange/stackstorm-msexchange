@@ -1,7 +1,7 @@
 ---
 name: send_email
 pack: msexchange
-runner_type: run-python
+runner_type: python-script
 description: Send an email
 enabled: true
 entry_point: send_email.py
