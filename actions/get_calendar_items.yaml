@@ -1,7 +1,7 @@
 ---
 name: get_calendar_items
 pack: msexchange
-runner_type: run-python
+runner_type: python-script
 description: Get the items in the calendar within a date range
 enabled: true
 entry_point: get_calendar_items.py

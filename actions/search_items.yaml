@@ -1,7 +1,7 @@
 ---
 name: search_items
 pack: msexchange
-runner_type: run-python
+runner_type: python-script
 description: Search and return items in a folder
 enabled: true
 entry_point: search_items.py
