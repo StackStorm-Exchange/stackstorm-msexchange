@@ -10,3 +10,6 @@ keywords:
 version: 0.1.4
 author: "Anthony Shaw"
 email: anthonyshaw@apache.org
+python_versions:
+  - "2"
+  - "3"
