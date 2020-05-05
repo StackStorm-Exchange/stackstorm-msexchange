@@ -1,5 +1,8 @@
 # Change Log
 
+## 0.1.4
+* Fixed exchangelib version due to an issue with the current version
+
 ## 0.1.3
 
 * Set default folder to `Inbox` for `search_items`
