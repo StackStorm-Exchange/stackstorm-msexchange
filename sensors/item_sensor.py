@@ -78,6 +78,10 @@ class ItemSensor(PollingSensor):
         return time.strptime(self._last_date, '%Y-%m-%dT%H:%M:%S')
 
     def _set_last_date(self, last_date):
-        self._last_date = time.strftime('%Y-%m-%dT%H:%M:%S', last_date)
+        # Check if the last_date value is an EWSDateTime object
+        if isinstance(last_date, EWSDateTime):
+            self._last_date = last_date.strftime('%Y-%m-%dT%H:%M:%S')
+        else:
+            self._last_date = time.strftime('%Y-%m-%dT%H:%M:%S', last_date)
         self._sensor_service.set_value(name=self._store_key,
                                        value=self._last_date)
