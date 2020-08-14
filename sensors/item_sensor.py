@@ -51,10 +51,10 @@ class ItemSensor(PollingSensor):
 
         self._logger.info("Found {0} items".format(items.count()))
 
-        for payload in items.values('item_id', 'subject', 'body', 'datetime_received'):
-            self._logger.info("Sending trigger for item '{0}'.".format(payload['subject']))
-            self._sensor_service.dispatch(trigger='exchange_new_item', payload=payload)
-            self._set_last_date(payload['datetime_received'])
+        for item in items:
+            self._logger.info("Sending trigger for item '{0}'.".format(item['subject']))
+            self._dispatch_trigger_for_new_item(item=item)
+            self._set_last_date(item['datetime_received'])
 
     def cleanup(self):
         # This is called when the st2 system goes down. You can perform cleanup operations like
@@ -87,3 +87,18 @@ class ItemSensor(PollingSensor):
             self._last_date = time.strftime('%Y-%m-%dT%H:%M:%S', last_date)
         self._sensor_service.set_value(name=self._store_key,
                                        value=self._last_date)
+
+    def _dispatch_trigger_for_new_item(self, item):
+        trigger = self._trigger_ref
+        if isinstance(item['datetime_received'], EWSDateTime):
+            datetime_received = item['datetime_received'].strftime('%Y-%m-%dT%H:%M:%S')
+        else:
+            datetime_received = item['datetime_received']
+
+        payload = {
+            'item_id': str(item['item_id']),
+            'subject': str(item['subject']),
+            'body': str(item['body']),
+            'datetime_received': datetime_received,
+        }
+        self._sensor_service.dispatch(trigger=trigger, payload=payload)
