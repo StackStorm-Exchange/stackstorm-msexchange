@@ -17,4 +17,5 @@ trigger_types:
           body:
             type: "string"
           datetime_received:
+            type: "string"
 
