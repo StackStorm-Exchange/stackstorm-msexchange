@@ -89,7 +89,7 @@ class ItemSensor(PollingSensor):
                                        value=self._last_date)
 
     def _dispatch_trigger_for_new_item(self, newitem):
-        trigger = self._trigger_ref
+        trigger = 'exchange_new_item''
         if isinstance(newitem['datetime_received'], EWSDateTime):
             datetime_received = newitem['datetime_received'].strftime('%Y-%m-%dT%H:%M:%S')
         else:
