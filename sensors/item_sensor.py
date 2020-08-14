@@ -50,6 +50,7 @@ class ItemSensor(PollingSensor):
         items = target.filter(is_read=False).filter(datetime_received__gt=start_date)
 
         self._logger.info("Found {0} items".format(items.count()))
+
         for payload in items.values('item_id', 'subject', 'body', 'datetime_received'):
             self._logger.info("Sending trigger for item '{0}'.".format(payload['subject']))
             self._sensor_service.dispatch(trigger='exchange_new_item', payload=payload)
@@ -76,7 +77,7 @@ class ItemSensor(PollingSensor):
         self._last_date = self._sensor_service.get_value(name=self._store_key)
         if self._last_date is None:
             return None
-        return time.strptime(self._last_date, '%Y-%m-%dT%H:%M:%S')
+        return datetime.strptime(self._last_date, '%Y-%m-%dT%H:%M:%S')
 
     def _set_last_date(self, last_date):
         # Check if the last_date value is an EWSDateTime object
