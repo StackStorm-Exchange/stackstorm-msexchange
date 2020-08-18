@@ -6,7 +6,7 @@ from exchangelib import Account, ServiceAccount, Configuration, DELEGATE, EWSDat
 
 
 class ItemSensor(PollingSensor):
-    def __init__(self, sensor_service,config=None, poll_interval=None):
+    def __init__(self, sensor_service, config=None, poll_interval=None):
         super(ItemSensor, self).__init__(sensor_service=sensor_service, config=config,
                                          poll_interval=poll_interval)
         self._logger = self.sensor_service.get_logger(name=self.__class__.__name__)
