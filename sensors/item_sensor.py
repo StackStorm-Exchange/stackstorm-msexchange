@@ -6,8 +6,9 @@ from exchangelib import Account, ServiceAccount, Configuration, DELEGATE, EWSDat
 
 
 class ItemSensor(PollingSensor):
-    def __init__(self, sensor_service, config):
-        super(ItemSensor, self).__init__(sensor_service=sensor_service, config=config)
+    def __init__(self, sensor_service,config=None, poll_interval=None):
+        super(ItemSensor, self).__init__(sensor_service=sensor_service, config=config,
+                                         poll_interval=poll_interval)
         self._logger = self.sensor_service.get_logger(name=self.__class__.__name__)
         self._stop = False
         self._store_key = 'exchange.item_sensor_date_str'
@@ -55,6 +56,9 @@ class ItemSensor(PollingSensor):
             self._logger.info("Sending trigger for item '{0}'.".format(newitem.subject))
             self._dispatch_trigger_for_new_item(newitem=newitem)
             self._set_last_date(newitem.datetime_received)
+            self._logger.info("Updating read status on item '{0}'.".format(newitem.subject))
+            newitem.is_read = True
+            newitem.save()
 
     def cleanup(self):
         # This is called when the st2 system goes down. You can perform cleanup operations like
