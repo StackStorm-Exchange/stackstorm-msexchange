@@ -10,12 +10,12 @@ trigger_types:
     payload_schema:
       type: "object"
       properties:
-          item_id:
-            type: "string"
-          subject:
-            type: "string"
-          body:
-            type: "string"
-          datetime_received:
-            type: "string"
+        item_id:
+          type: "string"
+        subject:
+          type: "string"
+        body:
+          type: "string"
+        datetime_received:
+          type: "string"
 
