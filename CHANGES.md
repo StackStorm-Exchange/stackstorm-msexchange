@@ -1,5 +1,13 @@
 # Change Log
 
+## 0.1.4
+
+* Corrected timestamp handling functions in item_sensor
+* Added poll_interval configuration option for item_sensor
+* Added dispatch trigger function with logic to process new item object properties in item_sensor
+* Updated polling logic in item_sensor to update "READ" status on all new items
+* Corrected version pinning in requirements.txt file - 1.10.0
+
 ## 0.1.3
 
 * Set default folder to `Inbox` for `search_items`

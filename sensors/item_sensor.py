@@ -6,8 +6,9 @@ from exchangelib import Account, ServiceAccount, Configuration, DELEGATE, EWSDat
 
 
 class ItemSensor(PollingSensor):
-    def __init__(self, sensor_service, config):
-        super(ItemSensor, self).__init__(sensor_service=sensor_service, config=config)
+    def __init__(self, sensor_service, config=None, poll_interval=None):
+        super(ItemSensor, self).__init__(sensor_service=sensor_service, config=config,
+                                         poll_interval=poll_interval)
         self._logger = self.sensor_service.get_logger(name=self.__class__.__name__)
         self._stop = False
         self._store_key = 'exchange.item_sensor_date_str'
@@ -42,6 +43,7 @@ class ItemSensor(PollingSensor):
 
     def poll(self):
         stored_date = self._get_last_date()
+        self._logger.info("Stored Date: {}".format(stored_date))
         if not stored_date:
             stored_date = datetime.now()
         start_date = self._timezone.localize(EWSDateTime.from_datetime(stored_date))
@@ -49,10 +51,14 @@ class ItemSensor(PollingSensor):
         items = target.filter(is_read=False).filter(datetime_received__gt=start_date)
 
         self._logger.info("Found {0} items".format(items.count()))
-        for payload in items.values('item_id', 'subject', 'body', 'datetime_received'):
-            self._logger.info("Sending trigger for item '{0}'.".format(payload['subject']))
-            self._sensor_service.dispatch(trigger='exchange_new_item', payload=payload)
-            self._set_last_date(payload['datetime_received'])
+
+        for newitem in items:
+            self._logger.info("Sending trigger for item '{0}'.".format(newitem.subject))
+            self._dispatch_trigger_for_new_item(newitem=newitem)
+            self._set_last_date(newitem.datetime_received)
+            self._logger.info("Updating read status on item '{0}'.".format(newitem.subject))
+            newitem.is_read = True
+            newitem.save()
 
     def cleanup(self):
         # This is called when the st2 system goes down. You can perform cleanup operations like
@@ -75,9 +81,28 @@ class ItemSensor(PollingSensor):
         self._last_date = self._sensor_service.get_value(name=self._store_key)
         if self._last_date is None:
             return None
-        return time.strptime(self._last_date, '%Y-%m-%dT%H:%M:%S')
+        return datetime.strptime(self._last_date, '%Y-%m-%dT%H:%M:%S')
 
     def _set_last_date(self, last_date):
-        self._last_date = time.strftime('%Y-%m-%dT%H:%M:%S', last_date)
+        # Check if the last_date value is an EWSDateTime object
+        if isinstance(last_date, EWSDateTime):
+            self._last_date = last_date.strftime('%Y-%m-%dT%H:%M:%S')
+        else:
+            self._last_date = time.strftime('%Y-%m-%dT%H:%M:%S', last_date)
         self._sensor_service.set_value(name=self._store_key,
                                        value=self._last_date)
+
+    def _dispatch_trigger_for_new_item(self, newitem):
+        trigger = 'msexchange.exchange_new_item'
+        if isinstance(newitem.datetime_received, EWSDateTime):
+            datetime_received = newitem.datetime_received.strftime('%Y-%m-%dT%H:%M:%S')
+        else:
+            datetime_received = str(newitem.datetime_received)
+
+        payload = {
+            'item_id': str(newitem.item_id),
+            'subject': str(newitem.subject),
+            'body': str(newitem.body),
+            'datetime_received': datetime_received,
+        }
+        self._sensor_service.dispatch(trigger=trigger, payload=payload)
