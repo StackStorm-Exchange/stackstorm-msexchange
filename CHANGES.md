@@ -1,7 +1,20 @@
 # Change Log
 
+## 1.0.1
+
+* Patched exchangelib version
+
+## 1.0.0
+
+* Drop Python 2.7 support
+
 ## 0.1.4
-* Fixed exchangelib version due to an issue with the current version
+
+* Corrected timestamp handling functions in item_sensor
+* Added poll_interval configuration option for item_sensor
+* Added dispatch trigger function with logic to process new item object properties in item_sensor
+* Updated polling logic in item_sensor to update "READ" status on all new items
+* Corrected version pinning in requirements.txt file - 1.10.0
 
 ## 0.1.3
 
