@@ -21,6 +21,7 @@ class ExchangeBaseTestCase(BaseActionTestCase):
         "username": "test",
         "password": "test",
         "primary_smtp_address": "test@test.com",
+        "timezone": "Europe/London",
     }
 
     def setUp(self):
