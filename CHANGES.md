@@ -1,5 +1,9 @@
 # Change Log
 
+## 1.0.1
+
+* Update exchangelib to 4.3.0
+
 ## 1.0.0
 
 * Drop Python 2.7 support

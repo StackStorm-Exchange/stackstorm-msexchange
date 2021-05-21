@@ -4,7 +4,7 @@ import os
 from st2common.runners.base_action import Action
 from st2client.client import Client
 from st2client.models import KeyValuePair
-from exchangelib import Account, ServiceAccount, Configuration, DELEGATE, EWSTimeZone
+from exchangelib import Account, Credentials, Configuration, DELEGATE, EWSTimeZone
 
 CacheEntry = namedtuple('CacheEntry', 'ews_url ews_auth_type primary_smtp_address')
 
@@ -15,7 +15,7 @@ class BaseExchangeAction(Action):
         api_url = os.environ.get('ST2_ACTION_API_URL', None)
         token = os.environ.get('ST2_ACTION_AUTH_TOKEN', None)
         self.client = Client(api_url=api_url, token=token)
-        self._credentials = ServiceAccount(
+        self._credentials = Credentials(
             username=config['username'],
             password=config['password'])
         self.timezone = EWSTimeZone.timezone(config['timezone'])

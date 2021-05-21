@@ -1,19 +1,21 @@
 [![Build Status](https://circleci.com/gh/StackStorm-Exchange/stackstorm-msexchange.svg?style=shield)](https://circleci.com/gh/StackStorm-Exchange/stackstorm-msexchange)
 
 # <img src="https://raw.githubusercontent.com/StackStorm-Exchange/stackstorm-msexchange/master/icon.png" width="32px" valign="-3px"/> Microsoft Exchange Integration Pack
+
 This pack provides Microsoft Exchange integration to perform simple searches on an Exchange user.
 
 Exchange Server 2010, 2013 and 2016 as well as Office 365 hosted Exchange accounts.
 
 ## Actions
+
 * `get_calendar_items` - Get a list of calendar items within a date range
 * `get_folder` - Get information about a folder (mail, contact, meta)
 * `list_folders` - List all folders or subfolders within a folder
 * `search_items` - Search for items by subject within a folder (default folder Inbox)
 * `send_email` - Send an email
 
-
 ## Sensors
+
 * `item_sensor` - Monitors the configured folder (Inbox by default) for new items and sends a `exchange_new_item` trigger when one is received
 
 ## Configuration
