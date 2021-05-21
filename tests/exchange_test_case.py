@@ -23,6 +23,7 @@ class ExchangeBaseActionTestCase(BaseActionTestCase):
         "primary_smtp_address": "test@test.com",
         "timezone": "Europe/London",
         "server": "10.0.0.1",
+        "timeout": 1,
     }
 
     def setUp(self):
@@ -37,6 +38,7 @@ class ExchangeBaseSensorTestCase(BaseSensorTestCase):
         "timezone": "Europe/London",
         "sensor_folder": "Inbox",
         "server": "10.0.0.1",
+        "timeout": 1,
     }
 
     def setUp(self):
