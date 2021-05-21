@@ -31,6 +31,7 @@ class BaseExchangeAction(Action):
                 service_endpoint=cache.ews_url,
                 credentials=self._credentials,
                 auth_type=cache.ews_auth_type,
+                retry_policy=FaultTolerance(max_wait=config.get("timeout", 600)),
             )
             self.account = Account(
                 primary_smtp_address=cache.primary_smtp_address,

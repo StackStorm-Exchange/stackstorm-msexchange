@@ -10,6 +10,7 @@ from exchangelib import (
     EWSDateTime,
     EWSTimeZone,
 )
+from exchangelib.protocol import FaultTolerance
 
 
 class ItemSensor(PollingSensor):
@@ -41,7 +42,11 @@ class ItemSensor(PollingSensor):
                 access_type=DELEGATE,
             )
         else:
-            ms_config = Configuration(server=self.server, credentials=self._credentials)
+            ms_config = Configuration(
+                server=self.server,
+                credentials=self._credentials,
+                retry_policy=FaultTolerance(max_wait=config.get("timeout", 600)),
+            )
             self.account = Account(
                 primary_smtp_address=self.primary_smtp_address,
                 config=ms_config,
