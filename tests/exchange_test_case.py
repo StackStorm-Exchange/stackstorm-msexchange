@@ -34,6 +34,7 @@ class ExchangeBaseSensorTestCase(BaseSensorTestCase):
         "password": "test",
         "primary_smtp_address": "test@test.com",
         "timezone": "Europe/London",
+        "sensor_folder": "Inbox",
     }
 
     def setUp(self):
