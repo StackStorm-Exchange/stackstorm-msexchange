@@ -13,10 +13,10 @@
 # See the License for the specific language governing permissions and
 
 
-from st2tests.base import BaseActionTestCase
+from st2tests.base import BaseActionTestCase, BaseSensorTestCase
 
 
-class ExchangeBaseTestCase(BaseActionTestCase):
+class ExchangeBaseActionTestCase(BaseActionTestCase):
     _test_config = {
         "username": "test",
         "password": "test",
@@ -25,4 +25,16 @@ class ExchangeBaseTestCase(BaseActionTestCase):
     }
 
     def setUp(self):
-        super(ExchangeBaseTestCase, self).setUp()
+        super(ExchangeBaseActionTestCase, self).setUp()
+
+
+class ExchangeBaseSensorTestCase(BaseSensorTestCase):
+    _test_config = {
+        "username": "test",
+        "password": "test",
+        "primary_smtp_address": "test@test.com",
+        "timezone": "Europe/London",
+    }
+
+    def setUp(self):
+        super(ExchangeBaseSensorTestCase, self).setUp()
