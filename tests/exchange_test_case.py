@@ -17,6 +17,11 @@ from st2tests.base import BaseActionTestCase
 
 
 class ExchangeBaseTestCase(BaseActionTestCase):
+    _test_config = {
+        "username": "test",
+        "password": "test",
+        "primary_smtp_address": "test@test.com",
+    }
 
     def setUp(self):
         super(ExchangeBaseTestCase, self).setUp()
