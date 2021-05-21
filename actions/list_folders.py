@@ -7,6 +7,6 @@ class ListFoldersAction(BaseExchangeAction):
         if root:
             folders = (self.account.root / root).children
         else:
-            folders = self.account.root.children
+            folders = self.account.root.children  # pylint: disable=no-member
 
         return [folder_to_dict(folder) for folder in folders]
