@@ -32,3 +32,8 @@
     type: string
     description: "Folder to monitor in the sensor"
     required: true
+  attachment_directory:
+    default: "/opt/stackstorm/packs/msexchange/attachments"
+    description: "Fully-qualified server directory to save e-mail attachments to."
+    type: string
+    required: true
