@@ -39,7 +39,8 @@ class SaveFileAttachmentAction(BaseExchangeAction):
         output_format = ATTACHMENT_FORMAT[attachment_format]
         att_filename_list = list()
 
-        inbox_message = self.account.inbox(id=message_id)
+        folder = self.account.root.get_folder_by_name("Inbox")
+        inbox_message = folder.get(id=message_id)
         self.logger.debug("inbox_message: {ibm}".format(ibm=inbox_message))
 
         # Get email by *combination* of message ID and changekey ID.
