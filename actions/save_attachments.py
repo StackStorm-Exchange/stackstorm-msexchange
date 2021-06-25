@@ -62,7 +62,7 @@ class SaveFileAttachmentAction(BaseExchangeAction):
                 self.logger.error(err_msg)
                 raise TypeError(err_msg)
             # Remove each attachment
-            for attachment in message.attachment:
+            for attachment in message.attachments:
                 if isinstance(attachment, FileAttachment):
                     output_file = self._get_unique_filename(
                         attachment_name=attachment.name,
