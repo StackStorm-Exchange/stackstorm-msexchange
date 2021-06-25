@@ -55,7 +55,7 @@ class BaseExchangeAction(Action):
             self._store_cache_configuration()
 
         # Configure attachment parameters
-        self._attachment_configuration(config)
+        self._attachment_configuration()
 
     def _store_cache_configuration(self):
         ews_url = self.account.protocol.service_endpoint
@@ -83,9 +83,9 @@ class BaseExchangeAction(Action):
         else:
             return None
 
-    def _attachment_configuration(self, config):
-        self.logger.debug("type(config): {t}".format(t=type(config)))
-        attach_dir = self.config["attachment_directory"]
+    def _attachment_configuration(self):
+        #self.logger.debug("type(config): {t}".format(t=type(config)))
+        attach_dir = self.config.get("attachment_directory", None)
         # if not attach_dir:
         #     try:
         #         from st2common.content import utils as content_utils
@@ -115,8 +115,8 @@ class BaseExchangeAction(Action):
         #     raise OSError("Unable to write to attachment directory '{dir}'."
         #         .format(dir=attach_dir))
 
-        # self.attachment_directory = attach_dir
-        # self.attachment_directory_maximum_size = int(config.get(
-        #     "attachment_directory_maximum_size", 50))
-        # self.attachment_days_to_keep = int(config.get(
-        #     "attachment_days_to_keep", 7))
+        self.attachment_directory = attach_dir
+        self.attachment_directory_maximum_size = int(self.config.get(
+            "attachment_directory_maximum_size", 50))
+        self.attachment_days_to_keep = int(self.config.get(
+            "attachment_days_to_keep", 7))
