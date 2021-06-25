@@ -43,6 +43,8 @@ class SaveFileAttachmentAction(BaseExchangeAction):
         # The "account.fetch()" method returns an iterator of items.
         # So even though we expect only one result, we must iterate.
         item_iter = self.account.fetch(ids=list((message_id, changekey_id)))
+        messages = [item for item in item_iter if isinstance(item, Message)]
+        self.logger.debug("Messages retrieved: {msg}".format(msg=messages))
         for message in item_iter:
             # Only *email* messages are handled.
             if not isinstance(message, Message):
