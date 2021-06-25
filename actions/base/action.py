@@ -85,21 +85,21 @@ class BaseExchangeAction(Action):
 
     def _attachment_configuration(self, config):
         attach_dir = config.get("attachment_directory", None)
-        if not attach_dir:
-            try:
-                from st2common.content import utils as content_utils
-                pack_name = getattr(self.action_service._action_wrapper,
-                                    "_pack", "unknown")
-                pack_path = content_utils.get_pack_base_path(pack_name)
-                attach_dir = os.path.join(pack_path, "attachments")
-            except ImportError:
-                err_msg = ("Unable load import 'st2common.content.utils' "
-                    "library. Using pack default attachment directory of "
-                    "'/opt/stackstorm/packs/msexchange/attachments'.")
-                self.logger.error(err_msg)
-                attach_dir = "/opt/stackstorm/packs/msexchange/attachments"
-        else:
-            attach_dir = os.path.abspath(attach_dir)
+        # if not attach_dir:
+        #     try:
+        #         from st2common.content import utils as content_utils
+        #         pack_name = getattr(self.action_service._action_wrapper,
+        #                             "_pack", "unknown")
+        #         pack_path = content_utils.get_pack_base_path(pack_name)
+        #         attach_dir = os.path.join(pack_path, "attachments")
+        #     except ImportError:
+        #         err_msg = ("Unable load import 'st2common.content.utils' "
+        #             "library. Using pack default attachment directory of "
+        #             "'/opt/stackstorm/packs/msexchange/attachments'.")
+        #         self.logger.error(err_msg)
+        #         attach_dir = "/opt/stackstorm/packs/msexchange/attachments"
+        # else:
+        #     attach_dir = os.path.abspath(attach_dir)
 
         # Create the folder/directory, if it doesn't exist,
         # and make it writeable.
