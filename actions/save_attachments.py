@@ -40,40 +40,40 @@ class SaveFileAttachmentAction(BaseExchangeAction):
         att_filename_list = list()
 
         # Get email by *combination* of message ID and changekey ID.
-        message = self.account.fetch(ids=list((message_id, changekey_id)))
-        self.logger.debug("Message after retrieval by ID: {msg}"
-            .format(msg=message))
-
-        # Only *email* messages are handled.
-        if not isinstance(message, Message):
-            err_msg = ("Message ID '{id}' is not an email message (item type: "
-                        "{item_type}).".format(id=str(message_id),
-                        item_type=str(message.item_type)))
-            self.logger.error(err_msg)
-            raise TypeError(err_msg)
-
-        # Remove each attachment
-        for attachment in message.attachment:
-            if isinstance(attachment, FileAttachment):
-                output_file = self._get_unique_filename(
-                    attachement_name=attachment.name,
-                    attachment_sent=attachment.datetime_sent)
-                # Perform buffered I/O to avoid memory issues
-                # with large attachments.
-                with open(output_file, output_format) \
-                    as f, attachment.fp as fp:
-                    buffer = fp.read(BUFFER_SIZE)
-                    while buffer:
-                        f.write()
+        # The "account.fetch()" method returns an iterator of items.
+        # So even though we expect only one result, we must iterate.
+        item_iter = self.account.fetch(ids=list((message_id, changekey_id)))
+        for message in item_iter:
+            # Only *email* messages are handled.
+            if not isinstance(message, Message):
+                err_msg = ("Message ID '{id}' is not an email message "
+                            "(item type: {item_type}).".format(
+                                id=str(message.item_id),
+                                item_type=str(message.item_type)))
+                self.logger.error(err_msg)
+                raise TypeError(err_msg)
+            # Remove each attachment
+            for attachment in message.attachment:
+                if isinstance(attachment, FileAttachment):
+                    output_file = self._get_unique_filename(
+                        attachment_name=attachment.name,
+                        attachment_sent=attachment.datetime_sent)
+                    # Perform buffered I/O to avoid memory issues
+                    # with large attachments.
+                    with open(output_file, output_format) \
+                        as f, attachment.fp as fp:
                         buffer = fp.read(BUFFER_SIZE)
-                self.logger.info("Saved attachment '{att_name}'."
-                    .format(att_name=output_file))
-                att_filename_list.append(output_file)
-            else:
-                self.logger.error("Attachment '{att_name}' on email "
-                    "'{email}' is not a *file* attachment. Skipping..."
-                    .format(att_name=str(attachment.name),
-                            email=str(attachment.message.subject)))
+                        while buffer:
+                            f.write()
+                            buffer = fp.read(BUFFER_SIZE)
+                    self.logger.info("Saved attachment '{att_name}'."
+                        .format(att_name=output_file))
+                    att_filename_list.append(output_file)
+                else:
+                    self.logger.error("Attachment '{att_name}' on email "
+                        "'{email}' is not a *file* attachment. Skipping..."
+                        .format(att_name=str(attachment.name),
+                                email=str(attachment.message.subject)))
 
         return att_filename_list
 
