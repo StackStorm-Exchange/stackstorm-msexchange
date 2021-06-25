@@ -42,7 +42,7 @@ class SaveFileAttachmentAction(BaseExchangeAction):
 
         # Get email message by ID from specified folder.
         folder = self.account.root.get_folder_by_name(message_folder)
-        message = folder.get(id=str(message_id))
+        message = folder.get(item_id=str(message_id))
 
         # Only *email* messages are handled.
         if not isinstance(message, Message):
