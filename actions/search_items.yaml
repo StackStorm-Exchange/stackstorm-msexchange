@@ -19,3 +19,9 @@ parameters:
         description: Include the body of the message in the responses
         default: true
         required: false
+    search_start_date:
+        type: string
+        description: >
+            [Optional] Date in valid ISO 8601 format to start search or for
+            which to save attachments.
+        required: false
