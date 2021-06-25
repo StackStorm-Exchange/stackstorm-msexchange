@@ -1,0 +1,24 @@
+---
+name: save_attachments
+pack: msexchange
+runner_type: python-script
+description: >
+  Save file attachments from e-mail. Returns a list/array of fully-qualified
+  filenames (path and filename) of saved attachments.
+enabled: true
+entry_point: save_attachments.py
+parameters:
+  message_id:
+    type: string
+    description: >
+      MS Exchange message ID (e.g., from 'search_items' results) from which
+      to save attachments.
+    required: true
+  attachment_format:
+    type: string
+    description: Format to save attachments in.
+    default: BINARY
+    enum:
+      - BINARY
+      - TEXT
+    required: true
