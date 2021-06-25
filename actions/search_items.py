@@ -10,5 +10,5 @@ class SearchItemsAction(BaseExchangeAction):
         else:
             items = folder.all()
         for item in items:
-            self.logger.debug("Item fields: ".format(item.attribute_fields()))
+            self.logger.debug("Item class: ".format(type(item)))
         return [item_to_dict(item, include_body=include_body) for item in items]
