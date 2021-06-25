@@ -39,10 +39,15 @@ class SaveFileAttachmentAction(BaseExchangeAction):
         output_format = ATTACHMENT_FORMAT[attachment_format]
         att_filename_list = list()
 
+        inbox_message = self.account.inbox(id=message_id)
+        self.logger.debug("inbox_message: {ibm}".format(ibm=inbox_message))
+
         # Get email by *combination* of message ID and changekey ID.
         # The "account.fetch()" method returns an iterator of items.
         # So even though we expect only one result, we must iterate.
         item_iter = self.account.fetch(ids=list((message_id, changekey_id)))
+        self.logger.debug("item_iter, type(item_iter): {ii}, {tii}"
+            .format(ii=item_iter, tii=type(item_iter)))
         messages = [item for item in item_iter if isinstance(item, Message)]
         self.logger.debug("Messages retrieved: {msg}".format(msg=messages))
         for message in item_iter:
