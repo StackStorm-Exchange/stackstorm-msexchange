@@ -1,3 +1,5 @@
+from exchangelib import Mailbox, Item, Message
+
 def folder_to_dict(folder):
     return {
         'id': folder.folder_id,
@@ -33,9 +35,14 @@ def item_to_dict(item, include_body=False):
         del result['body']
         del result['text_body']
     # If this is an email message, add sender and recipients.
-
-    #if "Message" in str(item.item_class):
-    result["email_sender"] = str(item.sender)
-    result["email_recipient_list"] = [str(email) for email
-                                        in item.to_recipients]
+    if isinstance(item, Message):
+        result["sender_email_address"] = None
+        for sender in item.sender:
+            if isinstance(sender, Mailbox):
+                result["sender_email_address"] = str(sender.email_address)
+                break
+        result["email_recipient_list"] = list()
+        for recpt in item.to_recipients:
+            if isinstance(recpt, Mailbox):
+                result["email_recipient_list"].append(str(recpt.email_address))
     return result
