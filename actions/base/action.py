@@ -84,7 +84,7 @@ class BaseExchangeAction(Action):
             return None
 
     def _attachment_configuration(self, config):
-        attach_dir = config.get("attachment_directory", None)
+        attach_dir = config["attachment_directory"]
         # if not attach_dir:
         #     try:
         #         from st2common.content import utils as content_utils
@@ -104,18 +104,18 @@ class BaseExchangeAction(Action):
 
         # Create the folder/directory, if it doesn't exist,
         # and make it writeable.
-        if not os.path.exists(attach_dir):
-            os.makedirs(attach_dir, exist_ok=True)
-            os.chmod(attach_dir, 0o755)
-            self.logger.info("Created directory '{dir}' and made writeable."
-                .format(dir=attach_dir))
+        # if not os.path.exists(attach_dir):
+        #     os.makedirs(attach_dir, exist_ok=True)
+        #     os.chmod(attach_dir, 0o755)
+        #     self.logger.info("Created directory '{dir}' and made writeable."
+        #         .format(dir=attach_dir))
 
-        if not os.access(attach_dir, os.W_OK):
-            raise OSError("Unable to write to attachment directory '{dir}'."
-                .format(dir=attach_dir))
+        # if not os.access(attach_dir, os.W_OK):
+        #     raise OSError("Unable to write to attachment directory '{dir}'."
+        #         .format(dir=attach_dir))
 
-        self.attachment_directory = attach_dir
-        self.attachment_directory_maximum_size = int(config.get(
-            "attachment_directory_maximum_size", 50))
-        self.attachment_days_to_keep = int(config.get(
-            "attachment_days_to_keep", 7))
+        # self.attachment_directory = attach_dir
+        # self.attachment_directory_maximum_size = int(config.get(
+        #     "attachment_directory_maximum_size", 50))
+        # self.attachment_days_to_keep = int(config.get(
+        #     "attachment_days_to_keep", 7))
