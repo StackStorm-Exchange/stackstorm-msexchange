@@ -31,6 +31,8 @@ class SaveFileAttachmentAction(BaseExchangeAction):
 
         :returns list: List of *dictionaries* of:
             Email Subject
+            Date/time email sent
+            Sender email address
             List of fully-qualified file/path names of saved attachments
         """
 
@@ -50,7 +52,7 @@ class SaveFileAttachmentAction(BaseExchangeAction):
         email messages.
         """
         output_format = ATTACHMENT_FORMAT[attachment_format]
-        att_filename_list = list()
+        att_result_list = list()
 
         for message in messages:
             # Only *email* messages are handled.
@@ -63,6 +65,7 @@ class SaveFileAttachmentAction(BaseExchangeAction):
                 raise TypeError(err_msg)
             # Remove each attachment
             for attachment in message.attachments:
+                att_filename_list = list()
                 if isinstance(attachment, FileAttachment):
                     output_file = self._get_unique_filename(
                         attachment_name=attachment.name,
@@ -84,7 +87,14 @@ class SaveFileAttachmentAction(BaseExchangeAction):
                         .format(att_name=str(attachment.name),
                                 email=str(attachment.message.subject)))
 
-        return att_filename_list
+            att_result_list.append(dict([
+                ("email_subject", str(message.subject)),
+                ("email_sent", str(message.datetime_sent)),
+                ("sender_email_address", str(message.sender.email_address)),
+                ("attachment_files", att_filename_list)
+            ]))
+
+        return att_result_list
 
     def _get_unique_filename(self, attachment_name, attachment_sent):
         save_dir = self.attachment_directory
@@ -158,39 +168,3 @@ class SaveFileAttachmentAction(BaseExchangeAction):
 
         return (items, [item_to_dict(item, include_body=False,
                             folder_name=folder.name) for item in items])
-
-    # def _get_date_from_string(self, date_str=None):
-    #     """
-    #     Use dateutil library (https://dateutil.readthedocs.io/) to parse
-    #     unstructured date string to standard format.
-    #     :param date_str str: Date as string in unknown/unstructured format
-    #     :returns EWSDateTime object or None
-    #     """
-    #     # If date_str is not provided, we assume that this is for the *end*
-    #     # of the filter range, which we set to "now", using timezone from
-    #     # pack configuration.
-    #     if not date_str:
-    #         return EWSDateTime.now(tz=self.timezone)
-
-    #     try:
-    #         from dateutil import parser
-    #         import pytz
-    #         parsed_date = parser.parse(date_str)
-    #         utc_date = pytz.utc.localize(parsed_date)
-    #         local_date = utc_date
-    #         try:
-    #             local_date = utc_date.astimezone(self.timezone)
-    #         except Exception:
-    #             self.logger.error("Unable to convert search date to pack "
-    #                 "timezone. Using UTC...")
-    #         start_date = EWSDateTime.from_datetime(local_date)
-    #         self.logger.debug("Search start date: {dt}".format(dt=start_date))
-    #     except ImportError:
-    #         self.logger.error("Unable to find/load 'dateutil' library.")
-    #         start_date = None
-    #     except ValueError:
-    #         self.logger.error("Invalid format for date input: {dt}"
-    #             .format(dt=date_str))
-    #         start_date = None
-
-    #     return start_date
