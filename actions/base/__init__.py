@@ -11,7 +11,7 @@ def folder_to_dict(folder):
     }
 
 
-def item_to_dict(item, include_body=False):
+def item_to_dict(item, include_body=False, folder_name=None):
     result = {
         'id': item.item_id,
         'changekeyid': item.changekey,
@@ -34,6 +34,8 @@ def item_to_dict(item, include_body=False):
     if not include_body:
         del result['body']
         del result['text_body']
+    if folder_name:
+        result["folder_name"] = folder_name
     # If this is an email message, add sender and recipients.
     if isinstance(item, Message):
         result["sender_email_address"] = None
