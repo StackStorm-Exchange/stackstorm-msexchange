@@ -85,7 +85,7 @@ class BaseExchangeAction(Action):
 
     def _attachment_configuration(self, config):
         self.logger.debug("type(config): {t}".format(t=type(config)))
-        attach_dir = config["attachment_directory"]
+        attach_dir = self.config["attachment_directory"]
         # if not attach_dir:
         #     try:
         #         from st2common.content import utils as content_utils
