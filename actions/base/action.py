@@ -56,7 +56,7 @@ class BaseExchangeAction(Action):
             self._store_cache_configuration()
 
         # Configure attachment parameters
-        self._attachment_configuration(config)
+        #self._attachment_configuration(config)
 
     def _store_cache_configuration(self):
         ews_url = self.account.protocol.service_endpoint
