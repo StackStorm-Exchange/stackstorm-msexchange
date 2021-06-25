@@ -4,7 +4,8 @@ import os
 from st2common.runners.base_action import Action
 from st2client.client import Client
 from st2client.models import KeyValuePair
-from exchangelib import Account, ServiceAccount, Configuration, DELEGATE, EWSTimeZone
+from exchangelib import (Account, ServiceAccount, Configuration, DELEGATE,
+                        EWSTimeZone, EWSDateTime)
 
 CacheEntry = namedtuple('CacheEntry', 'ews_url ews_auth_type primary_smtp_address')
 
@@ -118,3 +119,39 @@ class BaseExchangeAction(Action):
             "attachment_directory_maximum_size", 50))
         self.attachment_days_to_keep = int(self.config.get(
             "attachment_days_to_keep", 7))
+
+    def _get_date_from_string(self, date_str=None):
+        """
+        Use dateutil library (https://dateutil.readthedocs.io/) to parse
+        unstructured date string to standard format.
+        :param date_str str: Date as string in unknown/unstructured format
+        :returns EWSDateTime object or None
+        """
+        # If date_str is not provided, we assume that this is for the *end*
+        # of the filter range, which we set to "now", using timezone from
+        # pack configuration.
+        if not date_str:
+            return EWSDateTime.now(tz=self.timezone)
+
+        try:
+            from dateutil import parser
+            import pytz
+            parsed_date = parser.parse(date_str)
+            utc_date = pytz.utc.localize(parsed_date)
+            local_date = utc_date
+            try:
+                local_date = utc_date.astimezone(self.timezone)
+            except Exception:
+                self.logger.error("Unable to convert search date to pack "
+                    "timezone. Using UTC...")
+            start_date = EWSDateTime.from_datetime(local_date)
+            self.logger.debug("Search start date: {dt}".format(dt=start_date))
+        except ImportError:
+            self.logger.error("Unable to find/load 'dateutil' library.")
+            start_date = None
+        except ValueError:
+            self.logger.error("Invalid format for date input: {dt}"
+                .format(dt=date_str))
+            start_date = None
+
+        return start_date
