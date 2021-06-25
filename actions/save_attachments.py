@@ -69,7 +69,7 @@ class SaveFileAttachmentAction(BaseExchangeAction):
                 if isinstance(attachment, FileAttachment):
                     output_file = self._get_unique_filename(
                         attachment_name=attachment.name,
-                        attachment_sent=attachment.datetime_sent)
+                        attachment_sent=message.datetime_sent)
                     # Perform buffered I/O to avoid memory issues
                     # with large attachments.
                     with open(output_file, output_format) \
