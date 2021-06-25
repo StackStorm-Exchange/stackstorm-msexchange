@@ -9,6 +9,5 @@ class SearchItemsAction(BaseExchangeAction):
             items = folder.filter(subject__contains=subject)
         else:
             items = folder.all()
-        for item in items:
-            self.logger.debug("Item class: ".format(type(item)))
+
         return [item_to_dict(item, include_body=include_body) for item in items]
