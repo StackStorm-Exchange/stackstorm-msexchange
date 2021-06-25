@@ -36,7 +36,7 @@ class SearchItemsAction(BaseExchangeAction):
         try:
             from dateutil import parser
             start_date = EWSDateTime.from_datetime(parser.parse(date_str))
-            self.logger.debug("Search start date: {dt}".format(start_date))
+            self.logger.debug("Search start date: {dt}".format(dt=start_date))
         except ImportError:
             self.logger.error("Unable to find/load 'dateutil' library.")
             start_date = None
