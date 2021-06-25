@@ -1,4 +1,4 @@
-from exchangelib import Mailbox, Item, Message
+from exchangelib import Mailbox, Message
 
 def folder_to_dict(folder):
     return {
