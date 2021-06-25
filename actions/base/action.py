@@ -113,8 +113,8 @@ class BaseExchangeAction(Action):
             raise OSError("Unable to write to attachment directory '{dir}'."
                 .format(dir=attach_dir))
 
-        self._attachment_directory = attach_dir
-        self._attachment_directory_max_size = int(config.get(
+        self.attachment_directory = attach_dir
+        self.attachment_directory_maximum_size = int(config.get(
             "attachment_directory_maximum_size", 50))
-        self._attachment_days_to_keep = int(config.get(
+        self.attachment_days_to_keep = int(config.get(
             "attachment_days_to_keep", 7))
