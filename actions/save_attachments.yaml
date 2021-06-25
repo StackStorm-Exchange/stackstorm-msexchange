@@ -14,12 +14,12 @@ parameters:
       MS Exchange message ID (e.g., from 'search_items' results) from which
       to save attachments.
     required: true
-  message_folder:
+  changekey_id:
     type: string
     description: >
-      Name of folder containing the message with attachment.
+      MS Exchange changekey ID (e.g., from 'search_items' results) from which
+      to save attachments.
     required: true
-    default: Inbox
   attachment_format:
     type: string
     description: Format to save attachments in.

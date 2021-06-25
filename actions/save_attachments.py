@@ -32,7 +32,7 @@ class SaveFileAttachmentAction(BaseExchangeAction):
 
         return attachment_filename_list
 
-    def _save_attachments(self, message_id, message_folder, attachment_format):
+    def _save_attachments(self, message_id, changekey_id, attachment_format):
         """
         Save attachments to specified server folder from provided list of
         email messages.
@@ -40,9 +40,8 @@ class SaveFileAttachmentAction(BaseExchangeAction):
         output_format = ATTACHMENT_FORMAT[attachment_format]
         att_filename_list = list()
 
-        # Get email message by ID from specified folder.
-        folder = self.account.root.get_folder_by_name(message_folder)
-        message = folder.get(item_id=str(message_id))
+        # Get email by *combination* of message ID and changekey ID.
+        message = self.account.fetch(ids=list((message_id, changekey_id)))
 
         # Only *email* messages are handled.
         if not isinstance(message, Message):
