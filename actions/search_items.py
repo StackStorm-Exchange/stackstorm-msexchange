@@ -1,6 +1,8 @@
 from base.action import BaseExchangeAction
 from base import item_to_dict
 
+from exchangelib import EWSDateTime
+
 
 class SearchItemsAction(BaseExchangeAction):
     def run(self, folder, include_body, subject=None, search_start_date=None):
@@ -29,11 +31,12 @@ class SearchItemsAction(BaseExchangeAction):
         Use dateutil library (https://dateutil.readthedocs.io/) to parse
         unstructured date string to standard format.
         :param date_str str: Date as string in unknown/unstructured format
-        :returns datetime or None
+        :returns EWSDateTime object or None
         """
         try:
             from dateutil import parser
-            start_date = parser.parse(date_str)
+            start_date = EWSDateTime.from_datetime(parser.parse(date_str))
+            self.logger.debug("Search start date: {dt}".format(start_date))
         except ImportError:
             self.logger.error("Unable to find/load 'dateutil' library.")
             start_date = None
