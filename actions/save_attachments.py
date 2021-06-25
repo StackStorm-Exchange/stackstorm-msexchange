@@ -41,6 +41,8 @@ class SaveFileAttachmentAction(BaseExchangeAction):
 
         # Get email by *combination* of message ID and changekey ID.
         message = self.account.fetch(ids=list((message_id, changekey_id)))
+        self.logger.debug("Message after retrieval by ID: {msg}"
+            .format(msg=message))
 
         # Only *email* messages are handled.
         if not isinstance(message, Message):
