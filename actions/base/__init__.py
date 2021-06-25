@@ -32,4 +32,9 @@ def item_to_dict(item, include_body=False):
     if not include_body:
         del result['body']
         del result['text_body']
+    # If this is an email message, add sender and recipients.
+    if "Message" in item.item_class:
+        result["email_sender"] = str(item.sender)
+        result["email_recipient_list"] = [str(email) for email
+                                            in item.to_recipients]
     return result
