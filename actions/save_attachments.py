@@ -70,10 +70,12 @@ class SaveFileAttachmentAction(BaseExchangeAction):
                     output_file = self._get_unique_filename(
                         attachment_name=attachment.name,
                         attachment_sent=message.datetime_sent)
+                    self.logger.debug("File attachment: {f}"
+                        .format(f=output_file))
                     # Perform buffered I/O to avoid memory issues
                     # with large attachments.
                     with open(output_file, output_format) \
-                        as f, attachment.content as fp:
+                        as f, attachment as fp:
                         buffer = fp.read(BUFFER_SIZE)
                         while buffer:
                             f.write()
