@@ -41,8 +41,9 @@ def item_to_dict(item, include_body=False):
         result["sender_email_address"] = None
         if isinstance(item.sender, Mailbox):
             result["sender_email_address"] = str(item.sender.email_address)
-        result["email_recipient_list"] = list()
+        result["email_recipient_addresses"] = list()
         for recpt in item.to_recipients:
             if isinstance(recpt, Mailbox):
-                result["email_recipient_list"].append(str(recpt.email_address))
+                result["email_recipient_addresses"].append(
+                    str(recpt.email_address))
     return result
