@@ -73,7 +73,7 @@ class SaveFileAttachmentAction(BaseExchangeAction):
                     # Perform buffered I/O to avoid memory issues
                     # with large attachments.
                     with open(output_file, output_format) \
-                        as f, output_file.fp as fp:
+                        as f, attachment.content as fp:
                         buffer = fp.read(BUFFER_SIZE)
                         while buffer:
                             f.write()
