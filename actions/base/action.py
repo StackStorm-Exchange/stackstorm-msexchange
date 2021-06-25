@@ -2,7 +2,6 @@ from collections import namedtuple
 import os
 
 from st2common.runners.base_action import Action
-# from st2common.content import utils as content_utils
 from st2client.client import Client
 from st2client.models import KeyValuePair
 from exchangelib import Account, ServiceAccount, Configuration, DELEGATE, EWSTimeZone
@@ -87,10 +86,18 @@ class BaseExchangeAction(Action):
     def _attachment_configuration(self, config):
         attach_dir = config.get("attachment_directory", None)
         if not attach_dir:
-            pack_name = getattr(self.action_service._action_wrapper,
-                                "_pack", "unknown")
-            pack_path = content_utils.get_pack_base_path(pack_name)
-            attach_dir = os.path.join(pack_path, "attachments")
+            try:
+                from st2common.content import utils as content_utils
+                pack_name = getattr(self.action_service._action_wrapper,
+                                    "_pack", "unknown")
+                pack_path = content_utils.get_pack_base_path(pack_name)
+                attach_dir = os.path.join(pack_path, "attachments")
+            except ImportError:
+                err_msg = ("Unable load import 'st2common.content.utils' "
+                    "library. Using pack default attachment directory of "
+                    "'/opt/stackstorm/packs/msexchange/attachments'.")
+                self.logger.error(err_msg)
+                attach_dir = "/opt/stackstorm/packs/msexchange/attachments"
         else:
             attach_dir = os.path.abspath(attach_dir)
 
