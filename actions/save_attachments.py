@@ -4,10 +4,10 @@ from base.action import BaseExchangeAction
 from exchangelib import Message, FileAttachment, EWSDateTime
 
 # Dictionary lookup for output format to write attachment from action parameter
-ATTACHMENT_FORMAT = dict(
+ATTACHMENT_FORMAT = dict([
     ("BINARY", "wb"),
     ("TEXT", "wt")
-)
+])
 # Buffer size for writing attachments to file system.
 BUFFER_SIZE = 1024
 
