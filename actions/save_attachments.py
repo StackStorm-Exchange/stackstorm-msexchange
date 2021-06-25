@@ -15,8 +15,7 @@ class SaveFileAttachmentAction(BaseExchangeAction):
     """
     Action to save *file* attachments from MS Exchange *email* messages.
     """
-    def run(self, message_id, message_folder="Inbox",
-            attachment_format="BINARY"):
+    def run(self, message_id, changekey_id, attachment_format="BINARY"):
         """
         Action entrypoint
         :param message_id str: MS Exchange email message ID.
@@ -27,7 +26,7 @@ class SaveFileAttachmentAction(BaseExchangeAction):
 
         attachment_filename_list = list()
         attachment_filename_list = self._save_attachments(message_id=message_id,
-                                        message_folder=message_folder,
+                                        changekey_id=changekey_id,
                                         attachment_format=attachment_format)
 
         return attachment_filename_list
