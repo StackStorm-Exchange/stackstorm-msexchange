@@ -100,6 +100,7 @@ class BaseExchangeAction(Action):
         #         attach_dir = "/opt/stackstorm/packs/msexchange/attachments"
         # else:
         #     attach_dir = os.path.abspath(attach_dir)
+        attach_dir = os.path.abspath(attach_dir)
 
         # Create the folder/directory, if it doesn't exist,
         # and make it writeable.
