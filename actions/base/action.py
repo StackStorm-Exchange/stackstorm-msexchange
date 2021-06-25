@@ -84,6 +84,7 @@ class BaseExchangeAction(Action):
             return None
 
     def _attachment_configuration(self, config):
+        self.logger.debug("type(config): {t}".format(type(config)))
         attach_dir = config["attachment_directory"]
         # if not attach_dir:
         #     try:
