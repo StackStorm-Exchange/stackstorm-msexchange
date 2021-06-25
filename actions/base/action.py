@@ -108,6 +108,10 @@ class BaseExchangeAction(Action):
             os.chmod(attach_dir, 0o755)
             self.logger.info("Created directory '{dir}' and made writeable."
                 .format(dir=attach_dir))
+        else:
+            if not os.access(attach_dir, os.W_OK):
+                raise OSError("Unable to write to attachment directory '{dir}'."
+                    .format(dir=attach_dir))
 
         self._attachment_directory = attach_dir
         self._attachment_directory_max_size = config.get(
