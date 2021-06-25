@@ -35,7 +35,16 @@ class SearchItemsAction(BaseExchangeAction):
         """
         try:
             from dateutil import parser
-            start_date = EWSDateTime.from_datetime(parser.parse(date_str))
+            import pytz
+            parsed_date = parser.parse(date_str)
+            utc_date = pytz.utc.localize(parsed_date)
+            local_date = utc_date
+            try:
+                local_date = utc_date.astimezone(self.timezone)
+            except Exception:
+                self.logger.error("Unable to convert search date to pack "
+                    "timezone. Using UTC...")
+            start_date = EWSDateTime.from_datetime(local_date)
             self.logger.debug("Search start date: {dt}".format(dt=start_date))
         except ImportError:
             self.logger.error("Unable to find/load 'dateutil' library.")
