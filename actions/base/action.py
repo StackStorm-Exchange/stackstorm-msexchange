@@ -114,6 +114,7 @@ class BaseExchangeAction(Action):
                     .format(dir=attach_dir))
 
         self._attachment_directory = attach_dir
-        self._attachment_directory_max_size = config.get(
-            "attachment_directory_maximum_size", 50)
-        self._attachment_days_to_keep = config.get("attachment_days_to_keep", 7)
+        self._attachment_directory_max_size = int(config.get(
+            "attachment_directory_maximum_size", 50))
+        self._attachment_days_to_keep = int(config.get(
+            "attachment_days_to_keep", 7))
