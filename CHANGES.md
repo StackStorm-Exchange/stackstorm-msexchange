@@ -35,8 +35,9 @@
     * Added `search_start_date` parameter specifying the start date for items to search. (End date is always "today".) Date can be entered as free-form text. Most any date format is supported, as [`dateutil`](https://dateutil.readthedocs.io/) library is used to parse input to valid `datetime` value.
     * Update `search_items` action to return additional item attributes, specific to _email_ messages, from `item_to_dict` helper method. Such attributes can be useful in filtering e-mails based on sender and/or originating domain.
         - `sender_email_address` - Email address of sender.
-        - `email_recipient_addresses` - List/array of email recipients (from `exchangelib` `to_recipients` list **only**).
+        - `email_recipient_addresses` - List/array of email recipients (from [`exchangelib`](https://ecederstrand.github.io/exchangelib/) `to_recipients` list **only**).
     * Added optional `folder_name` parameter to `item_to_dict` helper method to include the name of the folder used in the search as attribute of returned dictionary.
+    * Update `requirements.txt` to include `python-dateutil` (see above) and `pytz`, which is needed for creating timezone-aware `exchangelib` [`EWSDateTime`](https://ecederstrand.github.io/exchangelib/exchangelib/ewsdatetime.html#exchangelib.ewsdatetime.EWSDateTime) objects for date searches.
 
 ## 1.0.0
 
