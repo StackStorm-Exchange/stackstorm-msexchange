@@ -74,14 +74,6 @@ class SaveFileAttachmentAction(BaseExchangeAction):
                         .format(f=output_file))
                     with open(os.path.abspath(output_file), output_format) as f:
                         f.write(attachment.content)
-                    # # Perform buffered I/O to avoid memory issues
-                    # # with large attachments.
-                    # with open(output_file, output_format) \
-                    #     as f, attachment as fp:
-                    #     buffer = fp.read(BUFFER_SIZE)
-                    #     while buffer:
-                    #         f.write()
-                    #         buffer = fp.read(BUFFER_SIZE)
                     self.logger.info("Saved attachment '{att_name}'."
                         .format(att_name=output_file))
                     att_filename_list.append(output_file)
