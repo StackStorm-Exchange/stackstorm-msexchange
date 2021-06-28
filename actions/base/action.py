@@ -177,21 +177,18 @@ class BaseExchangeAction(Action):
                 # First, try searching for messages...
                 try:
                     items = folder.filter(subject__contains=subject,
-                                            datetime_received__range=(
-                                                start_date, end_date
-                                            ))
+                        datetime_received__range=(start_date, end_date))
                 # Search on other items, which have regular "start" attribute...
                 except Exception:
                     items = folder.filter(subject__contains=subject,
-                                            start__gte=start_date)
+                        start__gte=start_date)
             else:
                 items = folder.filter(subject__contains=subject)
         else:
             if start_date:
                 try:
                     items = folder.filter(datetime_received__range=(
-                                                start_date, end_date
-                                            ))
+                        start_date, end_date))
                 except Exception:
                     items = folder.filter(start__gte=start_date)
             else:
