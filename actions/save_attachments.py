@@ -63,7 +63,7 @@ class SaveFileAttachmentAction(BaseExchangeAction):
                                 item_type=str(message.item_type)))
                 self.logger.error(err_msg)
                 raise TypeError(err_msg)
-            # Remove each attachment
+            # Save each attachment, if any
             for attachment in message.attachments:
                 att_filename_list = list()
                 if isinstance(attachment, FileAttachment):
@@ -83,12 +83,14 @@ class SaveFileAttachmentAction(BaseExchangeAction):
                         .format(att_name=str(attachment.name),
                                 email=str(message.subject)))
 
-            att_result_list.append(dict([
-                ("email_subject", str(message.subject)),
-                ("email_sent", str(message.datetime_sent)),
-                ("sender_email_address", str(message.sender.email_address)),
-                ("attachment_files", att_filename_list)
-            ]))
+            # Append to result list *ONLY* if one or more attachments are saved.
+            if att_filename_list:
+                att_result_list.append(dict([
+                    ("email_subject", str(message.subject)),
+                    ("email_sent", str(message.datetime_sent)),
+                    ("sender_email_address", str(message.sender.email_address)),
+                    ("attachment_files", att_filename_list)
+                ]))
 
         return att_result_list
 
