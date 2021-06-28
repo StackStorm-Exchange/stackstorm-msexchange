@@ -18,14 +18,8 @@ class AttachmentDirectoryMaintenanceSensor(PollingSensor):
     def poll(self):
         self._logger.info("*** Starting Attachment Folder Maintenance Sensor ***")
 
-        if (os.path.exists(self.attachment_directory)
-            and os.os.access(self.attachment_directory, os.W_OK | os.R_OK)):
-            self._logger.info("Dispatching trigger...")
-            self._dispatch_trigger_for_attachment_directory()
-        else:
-            self._logger.error("Unable to find attachment directory '{dir}' "
-                "and/or directory is not writeable."
-                .format(dir=self.attachment_directory))
+        self._logger.info("Dispatching trigger...")
+        self._dispatch_trigger_for_attachment_directory()
 
         self._logger.info("*** Ending Attachment Folder Maintenance Sensor ***")
 
