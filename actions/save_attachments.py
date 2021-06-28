@@ -81,7 +81,7 @@ class SaveFileAttachmentAction(BaseExchangeAction):
                     self.logger.error("Attachment '{att_name}' on email "
                         "'{email}' is not a *file* attachment. Skipping..."
                         .format(att_name=str(attachment.name),
-                                email=str(attachment.message.subject)))
+                                email=str(message.subject)))
 
             att_result_list.append(dict([
                 ("email_subject", str(message.subject)),
