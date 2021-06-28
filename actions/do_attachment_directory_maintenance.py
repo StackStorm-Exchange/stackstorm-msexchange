@@ -59,10 +59,10 @@ class AttachmentDirectoryMaintenanceAction(Action):
         for file in os.scandir(self.attachment_directory):
             if (file.is_file() and (int(file.stat().st_mtime)
                     < int(_older_than_dt.strftime("%s")))):
-                os.remove(file.name)
+                os.remove(file.path)
                 deleted_file_count += 1
                 deleted_file_size += file.stat().st_size
-                self.logger.info("Deleted '{file}'.".format(file.name))
+                self.logger.info("Deleted '{file}'.".format(file.path))
 
         self.logger.info("Deleted {n} files totaling {size}MB."
             .format(n=deleted_file_count,
@@ -95,10 +95,10 @@ class AttachmentDirectoryMaintenanceAction(Action):
             sorted_file_list = file_list.sort(key=lambda f: f.stat().st_size,
                                                 reverse=True)
             for file in sorted_file_list:
-                os.remove(file.name)
+                os.remove(file.path)
                 deleted_file_count += 1
                 deleted_file_size += file.stat().st_size
-                self.logger.info("Deleted '{file}'.".format(file.name))
+                self.logger.info("Deleted '{file}'.".format(file.path))
 
                 if ((total_file_size - deleted_file_size) < max_folder_size):
                     break
