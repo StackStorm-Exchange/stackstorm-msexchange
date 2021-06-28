@@ -1,0 +1,9 @@
+---
+name: do_attachment_directory_maintenance
+pack: msexchange
+runner_type: python-script
+description: >
+  Run maintenance on file system folder/directory to which email attachments
+  are saved per specified pack parameters.
+enabled: true
+entry_point: do_attachment_directory_maintenance.py
