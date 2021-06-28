@@ -86,7 +86,7 @@ class AttachmentDirectoryMaintenanceAction(Action):
         max_folder_size = (1024 * 1024) * self.attachment_directory_maximum_size
         if total_file_size > max_folder_size:
             self.logger.info("Deleting files until threshold reached...")
-            deleted_file_count, deleted_file_size = 0
+            deleted_file_count, deleted_file_size = 0, 0
             # Get list of *files* in directory and sort in descending
             # order by size.
             file_list = [file for file
