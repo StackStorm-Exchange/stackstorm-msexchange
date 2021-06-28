@@ -19,7 +19,7 @@ class AttachmentDirectoryMaintenanceSensor(PollingSensor):
         self._logger.info("*** Starting Attachment Folder Maintenance Sensor ***")
 
         self._logger.info("Dispatching trigger...")
-        self._dispatch_trigger_for_attachment_directory()
+        self._dispatch_trigger_for_attachment_directory_maintenance()
 
         self._logger.info("*** Ending Attachment Folder Maintenance Sensor ***")
 
@@ -41,7 +41,7 @@ class AttachmentDirectoryMaintenanceSensor(PollingSensor):
         # This method is called when trigger is deleted
         pass
 
-    def _dispatch_trigger_for_attachment_directory(self):
+    def _dispatch_trigger_for_attachment_directory_maintenance(self):
         trigger = ".".join(self._trigger_pack,
                     'attachment_directory_maintenance')
 
