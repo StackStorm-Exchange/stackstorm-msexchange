@@ -62,7 +62,7 @@ class AttachmentDirectoryMaintenanceAction(Action):
                 os.remove(file.path)
                 deleted_file_count += 1
                 deleted_file_size += file.stat().st_size
-                self.logger.info("Deleted '{file}'.".format(file.path))
+                self.logger.debug("Deleted '{file}'.".format(file=file.path))
 
         self.logger.info("Deleted {n} files totaling {size}MB."
             .format(n=deleted_file_count,
@@ -98,7 +98,7 @@ class AttachmentDirectoryMaintenanceAction(Action):
                 os.remove(file.path)
                 deleted_file_count += 1
                 deleted_file_size += file.stat().st_size
-                self.logger.info("Deleted '{file}'.".format(file.path))
+                self.logger.debug("Deleted '{file}'.".format(file=file.path))
 
                 if ((total_file_size - deleted_file_size) < max_folder_size):
                     break
