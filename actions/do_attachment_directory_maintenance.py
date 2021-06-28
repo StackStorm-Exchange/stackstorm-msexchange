@@ -1,4 +1,4 @@
-from datetime import datetime
+from datetime import datetime, timedelta
 import os
 from st2common.runners.base_action import Action
 
@@ -46,12 +46,13 @@ class AttachmentDirectoryMaintenanceAction(Action):
         Find all files older than "attachment_days_to_keep" and delete them.
         """
         deleted_file_count, deleted_file_size = 0, 0
-        _older_than = (int(datetime.utcnow().strftime("%s"))
-                        - (24 * 60 * 60 * self.attachment_days_to_keep))
+        _older_than_dt = (datetime.utcnow()
+                            - timedelta(days=self.attachment_days_to_keep))
         self.logger.info("Deleting all files older than {ts}..."
-            .format(ts=_older_than.strftime("%m/%d/%Y %H:%M:%S")))
+            .format(ts=_older_than_dt.strftime("%m/%d/%Y %H:%M:%S")))
         for file in os.scandir(self.attachment_directory):
-            if file.is_file() and file.stat().st_mtime < _older_than:
+            if (file.is_file() and file.stat().st_mtime
+                    < _older_than_dt.strftime("%s")):
                 os.remove(file.name)
                 deleted_file_count += 1
                 deleted_file_size += file.stat().st_size
