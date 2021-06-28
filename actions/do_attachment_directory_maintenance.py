@@ -45,7 +45,7 @@ class AttachmentDirectoryMaintenanceAction(Action):
         """
         Find all files older than "attachment_days_to_keep" and delete them.
         """
-        deleted_file_count, deleted_file_size = 0
+        deleted_file_count, deleted_file_size = 0, 0
         _older_than = (int(datetime.utcnow().strftime("%s"))
                         - (24 * 60 * 60 * self.attachment_days_to_keep))
         self.logger.info("Deleting all files older than {ts}..."
@@ -67,7 +67,7 @@ class AttachmentDirectoryMaintenanceAction(Action):
         deleting files until threshold is reached starting with _largest_
         (remaining) files first.
         """
-        file_count, total_file_size = 0
+        file_count, total_file_size = 0, 0
         for file in os.scandir(self.attachment_directory):
             if file.is_file():
                 file_count += 1
