@@ -94,7 +94,8 @@ class BaseExchangeAction(Action):
                 pack_path = content_utils.get_pack_base_path(pack_name)
                 attach_dir = os.path.join(pack_path, "attachments")
             except ImportError:
-                err_msg = ("Unable load import 'st2common.content.utils' "
+                err_msg = (
+                    "Unable load import 'st2common.content.utils' "
                     "library. Using pack default attachment directory of "
                     "'/opt/stackstorm/packs/msexchange/attachments'.")
                 self.logger.error(err_msg)
@@ -108,11 +109,11 @@ class BaseExchangeAction(Action):
             os.makedirs(attach_dir, exist_ok=True)
             os.chmod(attach_dir, 0o755)
             self.logger.info("Created directory '{dir}' and made writeable."
-                .format(dir=attach_dir))
+                             .format(dir=attach_dir))
 
         if not os.access(attach_dir, os.W_OK):
             raise OSError("Unable to write to attachment directory '{dir}'."
-                .format(dir=attach_dir))
+                          .format(dir=attach_dir))
 
         self.attachment_directory = attach_dir
         self.attachment_directory_maximum_size = int(self.config.get(
@@ -143,7 +144,7 @@ class BaseExchangeAction(Action):
                 local_date = utc_date.astimezone(self.timezone)
             except Exception:
                 self.logger.error("Unable to convert search date to pack "
-                    "timezone. Using UTC...")
+                                  "timezone. Using UTC...")
             start_date = EWSDateTime.from_datetime(local_date)
             self.logger.debug("Search start date: {dt}".format(dt=start_date))
         except ImportError:
@@ -151,7 +152,7 @@ class BaseExchangeAction(Action):
             start_date = None
         except ValueError:
             self.logger.error("Invalid format for date input: {dt}"
-                .format(dt=date_str))
+                              .format(dt=date_str))
             start_date = None
 
         return start_date
@@ -176,19 +177,23 @@ class BaseExchangeAction(Action):
             if start_date:
                 # First, try searching for messages...
                 try:
-                    items = folder.filter(subject__contains=subject,
-                        datetime_received__range=(start_date, end_date))
-                # Search on other items, which have regular "start" attribute...
+                    items = folder.filter(
+                                subject__contains=subject,
+                                datetime_received__range=(
+                                    start_date, end_date))
+                # Search on other items, which have regular "start" attribute.
                 except Exception:
-                    items = folder.filter(subject__contains=subject,
-                        start__gte=start_date)
+                    items = folder.filter(
+                                subject__contains=subject,
+                                start__gte=start_date)
             else:
                 items = folder.filter(subject__contains=subject)
         else:
             if start_date:
                 try:
-                    items = folder.filter(datetime_received__range=(
-                        start_date, end_date))
+                    items = folder.filter(
+                                datetime_received__range=(
+                                    start_date, end_date))
                 except Exception:
                     items = folder.filter(start__gte=start_date)
             else:

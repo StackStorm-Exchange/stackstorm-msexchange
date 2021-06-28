@@ -1,5 +1,3 @@
-import os
-
 from st2reactor.sensor.base import PollingSensor
 
 
@@ -16,12 +14,14 @@ class AttachmentDirectoryMaintenanceSensor(PollingSensor):
         pass
 
     def poll(self):
-        self._logger.info("*** Starting Attachment Folder Maintenance Sensor ***")
+        self._logger.info("*** Starting Attachment Folder Maintenance "
+                          "Sensor ***")
 
         self._logger.info("Dispatching trigger...")
         self._dispatch_trigger_for_attachment_directory_maintenance()
 
-        self._logger.info("*** Ending Attachment Folder Maintenance Sensor ***")
+        self._logger.info("*** Ending Attachment Folder Maintenance "
+                          "Sensor ***")
 
     def cleanup(self):
         # This is called when the st2 system goes down.
