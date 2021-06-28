@@ -20,10 +20,23 @@ class AttachmentDirectoryMaintenanceAction(Action):
         self.attachment_days_to_keep = int(self.config.get(
             "attachment_days_to_keep", 7))
 
-    def run(self):
+    def run(self, attachment_directory_maximum_size=None,
+            attachment_days_to_keep=None):
         """
         Action entrypoint
+        :param attachment_directory_maximum_size int: *Optional* override of
+            pack parameter
+        :param attachment_days_to_keep int: *Optional* override of pack
+            parameter
         """
+
+        if attachment_directory_maximum_size:
+            self.attachment_directory_maximum_size = \
+                int(attachment_directory_maximum_size)
+            self.logger.info("Overriding pack folder maximum size...")
+        if attachment_days_to_keep:
+            self.attachment_days_to_keep = int(attachment_days_to_keep)
+            self.logger.info("Overriding pack maximum days to keep attachments...")
 
         self._remove_old_files()
         self._reduce_directory_size()
