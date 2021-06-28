@@ -94,8 +94,6 @@ class AttachmentDirectoryMaintenanceAction(Action):
                             if file.is_file()]
             sorted_file_list = sorted(file_list, key=lambda f: f.stat().st_size,
                                                 reverse=True)
-            self.logger.debug("\nfile_list: {fl}\nsorted_file_list: {sfl}"
-                .format(fl=file_list, sfl=sorted_file_list))
             for file in sorted_file_list:
                 os.remove(file.path)
                 deleted_file_count += 1
