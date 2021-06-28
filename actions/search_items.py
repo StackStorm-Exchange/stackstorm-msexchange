@@ -10,4 +10,4 @@ class SearchItemsAction(BaseExchangeAction):
                                     search_start_date=search_start_date)
 
         return [item_to_dict(item, include_body=include_body,
-                            folder_name=folder.name) for item in items]
+                            folder_name=folder) for item in items]
