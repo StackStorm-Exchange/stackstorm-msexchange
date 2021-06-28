@@ -57,8 +57,8 @@ class AttachmentDirectoryMaintenanceAction(Action):
         self.logger.info("Deleting all files older than {ts}..."
             .format(ts=_older_than_dt.strftime("%m/%d/%Y %H:%M:%S")))
         for file in os.scandir(self.attachment_directory):
-            if (file.is_file() and file.stat().st_mtime
-                    < _older_than_dt.strftime("%s")):
+            if (file.is_file() and (int(file.stat().st_mtime)
+                    < int(_older_than_dt.strftime("%s")))):
                 os.remove(file.name)
                 deleted_file_count += 1
                 deleted_file_size += file.stat().st_size
