@@ -92,7 +92,7 @@ class AttachmentDirectoryMaintenanceAction(Action):
             file_list = [file for file
                             in list(os.scandir(self.attachment_directory))
                             if file.is_file()]
-            sorted_file_list = file_list.sort(key=lambda f: f.stat().st_size,
+            sorted_file_list = sorted(file_list, key=lambda f: f.stat().st_size,
                                                 reverse=True)
             self.logger.debug("\nfile_list: {fl}\nsorted_file_list: {sfl}"
                 .format(fl=file_list, sfl=sorted_file_list))
