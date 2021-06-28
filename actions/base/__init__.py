@@ -1,5 +1,6 @@
 from exchangelib import Mailbox, Message
 
+
 def folder_to_dict(folder):
     return {
         'id': folder.folder_id,
