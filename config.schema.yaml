@@ -37,7 +37,7 @@
     description: "Fully-qualified server directory to save e-mail attachments to."
     type: string
     required: true
-  attachment_folder_maximum_size:
+  attachment_directory_maximum_size:
     default: 50
     type: integer
     description: >
