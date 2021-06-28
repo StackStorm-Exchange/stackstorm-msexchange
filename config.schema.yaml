@@ -41,7 +41,7 @@
     default: 50
     type: integer
     description: >
-      "Maximum amount of storage space in MB that attachments can use."
+      Maximum amount of storage space in MB that attachments can use.
     required: true
   attachment_days_to_keep:
     default: 7
