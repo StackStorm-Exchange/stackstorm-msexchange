@@ -42,8 +42,8 @@ class AttachmentDirectoryMaintenanceSensor(PollingSensor):
         pass
 
     def _dispatch_trigger_for_attachment_directory_maintenance(self):
-        trigger = ".".join(self._trigger_pack,
-                    'attachment_directory_maintenance')
+        trigger = ".".join([self._trigger_pack,
+                            'attachment_directory_maintenance'])
 
         payload = {}
         self._sensor_service.dispatch(trigger=trigger, payload=payload)
