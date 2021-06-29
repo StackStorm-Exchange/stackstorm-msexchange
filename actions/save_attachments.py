@@ -47,7 +47,7 @@ class SaveFileAttachmentAction(BaseExchangeAction):
                                  folder_name=folder) for item in messages]
         messages_as_dict = list()
         for message in full_messages_as_dict:
-            messages_as_dict.append(dict(
+            messages_as_dict.append(dict(list(
                 ("subject", message["subject"]),
                 ("attachments", message["attachments"]),
                 ("datetime_sent", message["datetime_sent"]),
@@ -55,7 +55,7 @@ class SaveFileAttachmentAction(BaseExchangeAction):
                 ("sender_email_address", message["sender_email_address"]),
                 ("email_recipient_addresses",
                     message["email_recipient_addresses"])
-            ))
+            )))
         self.logger.debug("Messages found: \n{m}".format(m=messages_as_dict))
 
         attachment_result_list = self._save_attachments(
