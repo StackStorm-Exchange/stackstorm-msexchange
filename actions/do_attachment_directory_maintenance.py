@@ -39,14 +39,17 @@ class AttachmentDirectoryMaintenanceAction(Action):
             self.logger.info("Overriding pack maximum days to keep "
                              "attachments...")
 
-        if (os.path.exists(self.attachment_directory)
-                and os.access(self.attachment_directory, os.W_OK | os.R_OK)):
-            self._remove_old_files()
-            self._reduce_directory_size()
+        if os.path.exists(self.attachment_directory):
+            if os.access(self.attachment_directory, os.W_OK | os.R_OK):
+                self._remove_old_files()
+                self._reduce_directory_size()
+            else:
+                self.logger.error("attachment directory '{dir}' is not "
+                                  "writable.".format(
+                                      dir=self.attachment_directory))
         else:
-            self.logger.error("Unable to find attachment directory '{dir}' "
-                              "and/or directory is not writeable.".format(
-                                  dir=self.attachment_directory))
+            self.logger.error("Unable to find attachment directory '{dir}'."
+                              .format(dir=self.attachment_directory))
 
     def _remove_old_files(self):
         """
