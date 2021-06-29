@@ -1,7 +1,10 @@
 import os.path
 import random
 import string
+
+from base import item_to_dict
 from base.action import BaseExchangeAction
+
 from exchangelib import Message, FileAttachment
 
 # Dictionary lookup for output format to write attachment from action parameter
@@ -36,11 +39,18 @@ class SaveFileAttachmentAction(BaseExchangeAction):
             List of fully-qualified file/path names of saved attachments
         """
 
-        messages, messages_as_dicts = self._search_items(
+        messages = self._search_items(
             folder=folder,
             subject=subject,
             search_start_date=search_start_date)
-        self.logger.debug("Messages found: \n{m}".format(m=messages_as_dicts))
+        full_messages_as_dict = [item_to_dict(item=item, include_body=False,
+                                 folder_name=folder) for item in messages]
+        messages_as_dict = {k: v for k, v in full_messages_as_dict.items()
+                            if full_messages_as_dict.keys() in ["subject",
+                            "attachments", "datetime_sent", "folder_name",
+                            "sender_email_address",
+                            "email_recipient_addresses"]}
+        self.logger.debug("Messages found: \n{m}".format(m=messages_as_dict))
 
         attachment_result_list = self._save_attachments(
             messages=messages,
