@@ -183,8 +183,7 @@ class BaseExchangeAction(Action):
                 # Search on other items, which have regular "start" attribute.
                 except Exception:
                     items = folder.filter(
-                                subject__contains=subject,
-                                start__gte=start_date)
+                        subject__contains=subject, start__gte=start_date)
             else:
                 items = folder.filter(subject__contains=subject)
         else:
