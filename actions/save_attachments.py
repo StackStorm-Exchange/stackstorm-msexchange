@@ -1,6 +1,6 @@
 import os.path
-import random, string
-from base import item_to_dict
+import random
+import string
 from base.action import BaseExchangeAction
 from exchangelib import Message, FileAttachment
 
@@ -37,14 +37,14 @@ class SaveFileAttachmentAction(BaseExchangeAction):
         """
 
         messages, messages_as_dicts = self._get_messages(
-                                        folder=folder,
-                                        subject=subject,
-                                        search_start_date=search_start_date)
+            folder=folder,
+            subject=subject,
+            search_start_date=search_start_date)
         self.logger.debug("Messages found: \n{m}".format(m=messages_as_dicts))
 
         attachment_result_list = self._save_attachments(
-                                    messages=messages,
-                                    attachment_format=attachment_format)
+            messages=messages,
+            attachment_format=attachment_format)
 
         return attachment_result_list
 
@@ -61,8 +61,8 @@ class SaveFileAttachmentAction(BaseExchangeAction):
             if not isinstance(message, Message):
                 err_msg = ("Message ID '{id}' is not an email message "
                            "(item type: {item_type}).".format(
-                                id=str(message.item_id),
-                                item_type=str(message.item_type)))
+                               id=str(message.item_id),
+                               item_type=str(message.item_type)))
                 self.logger.error(err_msg)
                 raise TypeError(err_msg)
             # Save each attachment, if any
@@ -84,8 +84,8 @@ class SaveFileAttachmentAction(BaseExchangeAction):
                     self.logger.info("Attachment '{att_name}' on email "
                                      "'{email}' is not a *file* attachment. "
                                      "Skipping...".format(
-                                        att_name=str(attachment.name),
-                                        email=str(message.subject)))
+                                         att_name=str(attachment.name),
+                                         email=str(message.subject)))
 
             # Append to result list ONLY if one or more attachments are saved.
             if att_filename_list:
