@@ -46,7 +46,7 @@ class AttachmentDirectoryMaintenanceAction(Action):
         else:
             self.logger.error("Unable to find attachment directory '{dir}' "
                               "and/or directory is not writeable.".format(
-                                dir=self.attachment_directory))
+                                  dir=self.attachment_directory))
 
     def _remove_old_files(self):
         """
@@ -57,7 +57,7 @@ class AttachmentDirectoryMaintenanceAction(Action):
             (datetime.utcnow() - timedelta(days=self.attachment_days_to_keep))
         self.logger.info("Deleting all files older than {ts}..."
                          .format(ts=_older_than_dt.strftime(
-                            "%m/%d/%Y %H:%M:%S")))
+                             "%m/%d/%Y %H:%M:%S")))
         for file in os.scandir(self.attachment_directory):
             if (file.is_file() and
                     (int(file.stat().st_mtime) < int(_older_than_dt.strftime(
@@ -88,7 +88,8 @@ class AttachmentDirectoryMaintenanceAction(Action):
                                  size=round(float(total_file_size) /
                                             (1024 * 1024), 1)))
 
-        max_folder_size = (1024*1024) * self.attachment_directory_maximum_size
+        max_folder_size = (
+            (1024 * 1024) * self.attachment_directory_maximum_size)
         if total_file_size > max_folder_size:
             self.logger.info("Deleting files until threshold reached...")
             deleted_file_count, deleted_file_size = 0, 0
