@@ -36,7 +36,7 @@ class SaveFileAttachmentAction(BaseExchangeAction):
             List of fully-qualified file/path names of saved attachments
         """
 
-        messages, messages_as_dicts = self._get_messages(
+        messages, messages_as_dicts = self._search_items(
             folder=folder,
             subject=subject,
             search_start_date=search_start_date)
