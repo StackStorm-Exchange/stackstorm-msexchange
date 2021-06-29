@@ -45,13 +45,17 @@ class SaveFileAttachmentAction(BaseExchangeAction):
             search_start_date=search_start_date)
         full_messages_as_dict = [item_to_dict(item=item, include_body=False,
                                  folder_name=folder) for item in messages]
-        messages_as_dict = [
-            {k: v for k, v in d.items()
-            #  if d.keys() in ["subject", "attachments", "datetime_sent",
-            #                  "folder_name", "sender_email_address",
-            #                  "email_recipient_addresses"]
-                             }
-            for d in full_messages_as_dict]
+        messages_as_dict = list()
+        for message in full_messages_as_dict:
+            messages_as_dict.append(dict(
+                ("subject", message["subject"]),
+                ("attachments", message["attachments"]),
+                ("datetime_sent", message["datetime_sent"]),
+                ("folder_name", message["folder_name"]),
+                ("sender_email_address", message["sender_email_address"]),
+                ("email_recipient_addresses",
+                    message["email_recipient_addresses"])
+            ))
         self.logger.debug("Messages found: \n{m}".format(m=messages_as_dict))
 
         attachment_result_list = self._save_attachments(
