@@ -1,3 +1,4 @@
+import datetime
 import os.path
 import random
 import string
@@ -134,6 +135,16 @@ class SaveFileAttachmentAction(BaseExchangeAction):
 
         # Try appending *attachment* date in format MM_DD_YYYY_HH_MI_SS
         file_date = str(attachment_sent.strftime("%m_%d_%Y_%H_%M_%S"))
+        file_name = "{name}_{date}{ext}".format(
+                    name=base_file_name[0],
+                    date=file_date, ext=base_file_name[1])
+        output_filename = os.path.join(save_dir, file_name)
+        if not os.path.exists(output_filename):
+            return output_filename
+
+        # Try appending *current* date in format MM_DD_YYYY_HH_MI_SS
+        file_date = str(datetime.now(datetime.timezone.utc)
+                        .strftime("%m_%d_%Y_%H_%M_%S"))
         file_name = "{name}_{date}{ext}".format(
                     name=base_file_name[0],
                     date=file_date, ext=base_file_name[1])
