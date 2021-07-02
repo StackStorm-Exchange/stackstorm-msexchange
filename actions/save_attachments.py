@@ -127,7 +127,8 @@ class SaveFileAttachmentAction(BaseExchangeAction):
         # Try appending *attachment* date in format MM_DD_YYYY
         file_date = str(attachment_sent.strftime("%m_%d_%Y"))
         output_filename = self._construct_filename(
-            save_dir, base_file_name, file_date
+            save_dir=save_dir, base_file_name=base_file_name,
+            append_str=file_date
         )
         if not os.path.exists(output_filename):
             return output_filename
@@ -135,7 +136,8 @@ class SaveFileAttachmentAction(BaseExchangeAction):
         # Try appending *attachment* date in format MM_DD_YYYY_HH_MI_SS
         file_date = str(attachment_sent.strftime("%m_%d_%Y_%H_%M_%S"))
         output_filename = self._construct_filename(
-            save_dir, base_file_name, file_date
+            save_dir=save_dir, base_file_name=base_file_name,
+            append_str=file_date
         )
         if not os.path.exists(output_filename):
             return output_filename
@@ -144,7 +146,8 @@ class SaveFileAttachmentAction(BaseExchangeAction):
         file_date = str(datetime.now(datetime.timezone.utc)
                         .strftime("%m_%d_%Y_%H_%M_%S"))
         output_filename = self._construct_filename(
-            save_dir, base_file_name, file_date
+            save_dir=save_dir, base_file_name=base_file_name,
+            append_str=file_date
         )
         if not os.path.exists(output_filename):
             return output_filename
@@ -154,12 +157,13 @@ class SaveFileAttachmentAction(BaseExchangeAction):
             rnd_str = "".join(random.SystemRandom().choice(
                 string.ascii_letters + string.digits) for _ in range(8))
             output_filename = self._construct_filename(
-                save_dir, base_file_name, rnd_str
+                save_dir=save_dir, base_file_name=base_file_name,
+                append_str=rnd_str
             )
             if not os.path.exists(output_filename):
                 return output_filename
 
-    def _construct_filename(save_dir, base_file_name, append_str):
+    def _construct_filename(self, save_dir, base_file_name, append_str):
         file_name = "{name}_{append_str}{ext}".format(
             name=base_file_name[0], append_str=append_str,
             ext=base_file_name[1])
