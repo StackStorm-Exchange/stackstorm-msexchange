@@ -82,8 +82,8 @@ class SaveFileAttachmentAction(BaseExchangeAction):
                 self.logger.error(err_msg)
                 raise TypeError(err_msg)
             # Save each attachment, if any
+            att_filename_list = list()
             for attachment in message.attachments:
-                att_filename_list = list()
                 if isinstance(attachment, FileAttachment):
                     output_file = self._get_unique_filename(
                         attachment_name=attachment.name,
