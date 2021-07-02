@@ -126,29 +126,29 @@ class SaveFileAttachmentAction(BaseExchangeAction):
         base_file_name = os.path.splitext(attachment_name)
         # Try appending *attachment* date in format MM_DD_YYYY
         file_date = str(attachment_sent.strftime("%m_%d_%Y"))
-        file_name = "{name}_{date}{ext}".format(
-                    name=base_file_name[0],
-                    date=file_date, ext=base_file_name[1])
-        output_filename = os.path.join(save_dir, file_name)
+        output_filename = self._construct_filename(
+            save_dir=save_dir, base_file_name=base_file_name,
+            append_str=file_date
+        )
         if not os.path.exists(output_filename):
             return output_filename
 
         # Try appending *attachment* date in format MM_DD_YYYY_HH_MI_SS
         file_date = str(attachment_sent.strftime("%m_%d_%Y_%H_%M_%S"))
-        file_name = "{name}_{date}{ext}".format(
-                    name=base_file_name[0],
-                    date=file_date, ext=base_file_name[1])
-        output_filename = os.path.join(save_dir, file_name)
+        output_filename = self._construct_filename(
+            save_dir=save_dir, base_file_name=base_file_name,
+            append_str=file_date
+        )
         if not os.path.exists(output_filename):
             return output_filename
 
         # Try appending *current* date in format MM_DD_YYYY_HH_MI_SS
         file_date = str(datetime.now(datetime.timezone.utc)
                         .strftime("%m_%d_%Y_%H_%M_%S"))
-        file_name = "{name}_{date}{ext}".format(
-                    name=base_file_name[0],
-                    date=file_date, ext=base_file_name[1])
-        output_filename = os.path.join(save_dir, file_name)
+        output_filename = self._construct_filename(
+            save_dir=save_dir, base_file_name=base_file_name,
+            append_str=file_date
+        )
         if not os.path.exists(output_filename):
             return output_filename
 
@@ -156,9 +156,17 @@ class SaveFileAttachmentAction(BaseExchangeAction):
         while os.path.exists(output_filename):
             rnd_str = "".join(random.SystemRandom().choice(
                 string.ascii_letters + string.digits) for _ in range(8))
-            file_name = "{name}_{rnd_str}{ext}".format(
-                name=base_file_name[0], rnd_str=rnd_str,
-                ext=base_file_name[1])
-            output_filename = os.path.join(save_dir, file_name)
+            output_filename = self._construct_filename(
+                save_dir=save_dir, base_file_name=base_file_name,
+                append_str=rnd_str
+            )
             if not os.path.exists(output_filename):
                 return output_filename
+
+    def _construct_filename(save_dir, base_file_name, append_str):
+        file_name = "{name}_{append_str}{ext}".format(
+            name=base_file_name[0], append_str=append_str,
+            ext=base_file_name[1])
+        output_filename = os.path.join(save_dir, file_name)
+
+        return output_filename
