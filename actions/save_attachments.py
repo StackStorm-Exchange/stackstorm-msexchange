@@ -48,6 +48,8 @@ class SaveFileAttachmentAction(BaseExchangeAction):
             List of fully-qualified file/path names of saved attachments
         """
 
+        self.logger.debug("replace_spaces_in_filename: {val}"
+                          .format(val=replace_spaces_in_filename))
         messages = self._search_items(
             folder=folder,
             subject=subject,
