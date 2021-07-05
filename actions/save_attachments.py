@@ -86,9 +86,11 @@ class SaveFileAttachmentAction(BaseExchangeAction):
                           .format(val=replace_spaces_in_filename))
         output_format = ATTACHMENT_FORMAT[attachment_format]
         replace_spaces_in_filename = REPLACE_SPACE.get(
-            "replace_spaces_in_filename", None)
+            replace_spaces_in_filename, None)
         self.logger.debug("replace_spaces_in_filename: {val}"
                           .format(val=replace_spaces_in_filename))
+        self.logger.debug("REPLACE_SPACE: {val}"
+                          .format(val=REPLACE_SPACE))
         att_result_list = list()
 
         for message in messages:
