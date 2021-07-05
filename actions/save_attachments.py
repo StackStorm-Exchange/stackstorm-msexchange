@@ -13,6 +13,12 @@ ATTACHMENT_FORMAT = dict([
     ("BINARY", "wb"),
     ("TEXT", "wt")
 ])
+REPLACE_SPACE = dict([
+    ("NONE", None),
+    ("UNDERSCORE", "_"),
+    ("OCTOTHORPE/HASH", "#"),
+    ("PIPE", "|")
+])
 # Buffer size for writing attachments to file system.
 BUFFER_SIZE = 1024
 
@@ -75,6 +81,8 @@ class SaveFileAttachmentAction(BaseExchangeAction):
         email messages.
         """
         output_format = ATTACHMENT_FORMAT[attachment_format]
+        replace_spaces_in_filename = REPLACE_SPACE.get(
+            "replace_spaces_in_filename", None)
         att_result_list = list()
 
         for message in messages:
