@@ -48,8 +48,6 @@ class SaveFileAttachmentAction(BaseExchangeAction):
             List of fully-qualified file/path names of saved attachments
         """
 
-        self.logger.debug("replace_spaces_in_filename: {val}"
-                          .format(val=replace_spaces_in_filename))
         messages = self._search_items(
             folder=folder,
             subject=subject,
@@ -82,15 +80,10 @@ class SaveFileAttachmentAction(BaseExchangeAction):
         Save attachments to specified server folder from provided list of
         email messages.
         """
-        self.logger.debug("replace_spaces_in_filename: {val}"
-                          .format(val=replace_spaces_in_filename))
+
         output_format = ATTACHMENT_FORMAT[attachment_format]
         replace_spaces_in_filename = REPLACE_SPACE.get(
             replace_spaces_in_filename, None)
-        self.logger.debug("replace_spaces_in_filename: {val}"
-                          .format(val=replace_spaces_in_filename))
-        self.logger.debug("REPLACE_SPACE: {val}"
-                          .format(val=REPLACE_SPACE))
         att_result_list = list()
 
         for message in messages:
@@ -139,8 +132,7 @@ class SaveFileAttachmentAction(BaseExchangeAction):
 
     def _get_unique_filename(self, attachment_name, attachment_sent,
                              replace_spaces_in_filename):
-        self.logger.debug("replace_spaces_in_filename: {val}"
-                          .format(val=replace_spaces_in_filename))
+
         save_dir = self.attachment_directory
         if replace_spaces_in_filename:
             attachment_name = (
