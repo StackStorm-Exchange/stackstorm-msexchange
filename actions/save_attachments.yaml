@@ -30,3 +30,13 @@ parameters:
       - BINARY
       - TEXT
     required: true
+  replace_spaces_in_filename:
+    type: string
+    description: Character to replace spaces in attachment file names with.
+    default: UNDERSCORE
+    enum:
+      - NONE
+      - UNDERSCORE
+      - OCTOTHORPE/HASH
+      - PIPE
+    required: true

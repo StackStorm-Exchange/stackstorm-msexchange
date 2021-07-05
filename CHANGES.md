@@ -29,6 +29,7 @@
     * Attachments can be saved either as BINARY (default) or TEXT format.
     * An `attachment_directory_maintenance` sensor/trigger/rule combination has been implemented and, by default, runs once daily (polling interval of 86400 seconds) to enforce these rules through the `do_attachment_directory_maintenance` action. This action can be run manually, as well, if you need to override the pack configuration values; running manually it with no input values uses the pack configuration.
     * Maintenance process removes files by age first and then, if necessary, deletes remaining files starting with _largest_ files until threshold is reached.
+    * Save attachment action has `replace_spaces_in_filename` enumerated value parameter (NONE [default], UNDERSCORE, OCTOTHORPE/HASH, and PIPE) to allow user to replace spaces in attachment file names, if desired. Default (NONE) is to preserve spaces.
 
 * **Enhancements** to `search_items` action.
     * Moved search logic from `run` method in `search_items` action into `_search_items` utility method in `base/actions.py` to allow functionality to be shared by `search_items` and `save_attachments`.

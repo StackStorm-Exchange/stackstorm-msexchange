@@ -22,7 +22,7 @@ class SaveFileAttachmentAction(BaseExchangeAction):
     Action to save *file* attachments from MS Exchange *email* messages.
     """
     def run(self, folder="Inbox", subject=None, search_start_date=None,
-            attachment_format="BINARY"):
+            attachment_format="BINARY", replace_spaces_in_filename=None):
         """
         Action entrypoint
         :param folder str: MS Exchange folder to search for messages.
@@ -32,6 +32,8 @@ class SaveFileAttachmentAction(BaseExchangeAction):
             format, as start date for search.
         :param attachment_format str: Format to save attachments in.
             BINARY or TEXT
+        :param replace_spaces_in_filename str: Character to replace spaces in
+            file names, if desired. Default is to leave spaces.
 
         :returns list: List of *dictionaries* of:
             Email Subject
@@ -61,11 +63,13 @@ class SaveFileAttachmentAction(BaseExchangeAction):
 
         attachment_result_list = self._save_attachments(
             messages=messages,
-            attachment_format=attachment_format)
+            attachment_format=attachment_format,
+            replace_spaces_in_filename=replace_spaces_in_filename)
 
         return attachment_result_list
 
-    def _save_attachments(self, messages, attachment_format):
+    def _save_attachments(self, messages, attachment_format,
+                          replace_spaces_in_filename):
         """
         Save attachments to specified server folder from provided list of
         email messages.
@@ -88,7 +92,8 @@ class SaveFileAttachmentAction(BaseExchangeAction):
                 if isinstance(attachment, FileAttachment):
                     output_file = self._get_unique_filename(
                         attachment_name=attachment.name,
-                        attachment_sent=message.datetime_sent)
+                        attachment_sent=message.datetime_sent,
+                        replace_spaces_in_filename=replace_spaces_in_filename)
                     self.logger.debug("File attachment: {f}"
                                       .format(f=output_file))
                     with open(os.path.abspath(output_file), output_format) \
@@ -116,8 +121,12 @@ class SaveFileAttachmentAction(BaseExchangeAction):
 
         return att_result_list
 
-    def _get_unique_filename(self, attachment_name, attachment_sent):
+    def _get_unique_filename(self, attachment_name, attachment_sent,
+                             replace_spaces_in_filename):
         save_dir = self.attachment_directory
+        if replace_spaces_in_filename:
+            attachment_name = (
+                str(attachment_name).replace(" ", replace_spaces_in_filename))
         # Try combination of path and attachment filename
         output_filename = os.path.join(save_dir, attachment_name)
         if not os.path.exists(output_filename):
