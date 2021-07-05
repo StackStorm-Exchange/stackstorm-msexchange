@@ -82,9 +82,13 @@ class SaveFileAttachmentAction(BaseExchangeAction):
         Save attachments to specified server folder from provided list of
         email messages.
         """
+        self.logger.debug("replace_spaces_in_filename: {val}"
+                          .format(val=replace_spaces_in_filename))
         output_format = ATTACHMENT_FORMAT[attachment_format]
         replace_spaces_in_filename = REPLACE_SPACE.get(
             "replace_spaces_in_filename", None)
+        self.logger.debug("replace_spaces_in_filename: {val}"
+                          .format(val=replace_spaces_in_filename))
         att_result_list = list()
 
         for message in messages:
