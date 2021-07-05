@@ -131,6 +131,8 @@ class SaveFileAttachmentAction(BaseExchangeAction):
 
     def _get_unique_filename(self, attachment_name, attachment_sent,
                              replace_spaces_in_filename):
+        self.logger.debug("replace_spaces_in_filename: {val}"
+                          .format(val=replace_spaces_in_filename))
         save_dir = self.attachment_directory
         if replace_spaces_in_filename:
             attachment_name = (
