@@ -33,7 +33,7 @@ parameters:
   replace_spaces_in_filename:
     type: string
     description: Character to replace spaces in attachment file names with.
-    default: UNDERSCORE
+    default: NONE
     enum:
       - NONE
       - UNDERSCORE
