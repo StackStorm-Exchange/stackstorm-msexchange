@@ -160,7 +160,7 @@ class SaveFileAttachmentAction(BaseExchangeAction):
             return output_filename
 
         # Try appending *current* date in format MM_DD_YYYY_HH_MI_SS
-        file_date = str(datetime.now(datetime.timezone.utc)
+        file_date = str(datetime.datetime.now(datetime.timezone.utc)
                         .strftime("%m_%d_%Y_%H_%M_%S"))
         output_filename = self._construct_filename(
             base_file_name=base_file_name, append_str=file_date
