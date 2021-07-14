@@ -28,6 +28,7 @@ class SaveFileAttachmentAction(BaseExchangeAction):
     Action to save *file* attachments from MS Exchange *email* messages.
     """
     def run(self, folder="Inbox", subject=None, search_start_date=None,
+            message_id=None, change_key=None,
             attachment_format="BINARY", replace_spaces_in_filename=None):
         """
         Action entrypoint
@@ -36,6 +37,12 @@ class SaveFileAttachmentAction(BaseExchangeAction):
             search for in "Subject" field.
         :param search_start_date str: [Optional] Date, preferably in ISO 8601
             format, as start date for search.
+        :param message_id str: [Optional] The Exchange server message ID
+            for the *email* message to save attachments. (Must be used in
+            conjunction with change_key.)
+        :param change_key str: [Optional] The Exchange server change key
+            for the *email* message to save attachments. (Must be used in
+            conjunction with message_id.)
         :param attachment_format str: Format to save attachments in.
             BINARY or TEXT
         :param replace_spaces_in_filename str: Character to replace spaces in
@@ -48,10 +55,17 @@ class SaveFileAttachmentAction(BaseExchangeAction):
             List of fully-qualified file/path names of saved attachments
         """
 
-        messages = self._search_items(
-            folder=folder,
-            subject=subject,
-            search_start_date=search_start_date)
+        messages = list()
+        if (message_id and change_key):
+            messages = self._get_item_by_id(item_id=message_id,
+                                            change_key=change_key)
+            folder = ""
+        else:
+            messages = self._search_items(
+                folder=folder,
+                subject=subject,
+                search_start_date=search_start_date)
+
         full_messages_as_dict = [item_to_dict(item=item, include_body=False,
                                  folder_name=folder) for item in messages]
         messages_as_dict = list()
