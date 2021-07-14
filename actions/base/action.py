@@ -197,3 +197,12 @@ class BaseExchangeAction(Action):
                 items = folder.all()
 
         return (items)
+
+    def _get_item_by_id(self, item_id, change_key):
+        """
+        Utility method to get MS Exchange item (email message, calendar item,
+        etc.) by combination of item ID and change key directly.
+        """
+
+        item_iter = self.account.fetch(ids=(item_id, change_key))
+        return [item for item in item_iter]
