@@ -101,6 +101,7 @@ class ItemSensor(PollingSensor):
 
         payload = {
             'item_id': str(newitem.item_id),
+            "change_key": str(newitem.changekey),
             'subject': str(newitem.subject),
             'body': str(newitem.body),
             'datetime_received': datetime_received,
