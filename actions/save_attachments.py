@@ -74,7 +74,7 @@ class SaveFileAttachmentAction(BaseExchangeAction):
                 ("subject", message["subject"]),
                 ("attachments", message["attachments"]),
                 ("datetime_sent", message["datetime_sent"]),
-                ("folder_name", message["folder_name"]),
+                ("folder_name", message.get("folder_name", "")),
                 ("sender_email_address", message["sender_email_address"]),
                 ("email_recipient_addresses",
                     message["email_recipient_addresses"])
