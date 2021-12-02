@@ -32,3 +32,19 @@
     type: string
     description: "Folder to monitor in the sensor"
     required: true
+  attachment_directory:
+    default: "/opt/stackstorm/packs/msexchange/attachments"
+    description: "Fully-qualified server directory to save e-mail attachments to."
+    type: string
+    required: true
+  attachment_directory_maximum_size:
+    default: 50
+    type: integer
+    description: >
+      Maximum amount of storage space in MB that attachments can use.
+    required: true
+  attachment_days_to_keep:
+    default: 7
+    type: integer
+    description: "Length of time to keep attachments in days."
+    required: true
