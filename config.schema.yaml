@@ -27,6 +27,11 @@
     type: "string"
     default: "Europe/London"
     required: true
+  timeout:
+    description: "Server connection timeout in seconds"
+    type: "integer"
+    default: 600
+    required: false
   sensor_folder:
     default: "Inbox"
     type: string
