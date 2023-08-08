@@ -12,6 +12,8 @@ trigger_types:
       properties:
         item_id:
           type: "string"
+        change_key:
+          type: "string"
         subject:
           type: "string"
         body:

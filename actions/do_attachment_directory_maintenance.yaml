@@ -1,0 +1,19 @@
+---
+name: do_attachment_directory_maintenance
+pack: msexchange
+runner_type: python-script
+description: >
+  Run maintenance on file system folder/directory to which email attachments
+  are saved per specified pack parameters.
+enabled: true
+entry_point: do_attachment_directory_maintenance.py
+parameters:
+  attachment_directory_maximum_size:
+    type: integer
+    description: >
+      Maximum amount of storage space in MB that attachments can use.
+    required: false
+  attachment_days_to_keep:
+    type: integer
+    description: "Length of time to keep attachments in days."
+    required: false

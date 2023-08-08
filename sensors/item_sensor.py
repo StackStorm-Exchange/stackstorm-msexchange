@@ -59,6 +59,7 @@ class ItemSensor(PollingSensor):
         self._logger.info("Stored Date: {}".format(stored_date))
         if not stored_date:
             stored_date = datetime.now()
+        # pylint: disable=no-member
         start_date = self._timezone.localize(EWSDateTime.from_datetime(stored_date))
         target = self.account.root / self.sensor_folder
         items = target.filter(is_read=False).filter(datetime_received__gt=start_date)
@@ -114,9 +115,10 @@ class ItemSensor(PollingSensor):
             datetime_received = str(newitem.datetime_received)
 
         payload = {
-            "item_id": str(newitem.item_id),
-            "subject": str(newitem.subject),
-            "body": str(newitem.body),
-            "datetime_received": datetime_received,
+            'item_id': str(newitem.item_id),
+            "change_key": str(newitem.changekey),
+            'subject': str(newitem.subject),
+            'body': str(newitem.body),
+            'datetime_received': datetime_received,
         }
         self._sensor_service.dispatch(trigger=trigger, payload=payload)

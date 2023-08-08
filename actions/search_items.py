@@ -10,4 +10,5 @@ class SearchItemsAction(BaseExchangeAction):
         else:
             items = folder.all()
 
-        return [item_to_dict(item, include_body=include_body) for item in items]
+        return [item_to_dict(item, include_body=include_body,
+                             folder_name=folder) for item in items]
