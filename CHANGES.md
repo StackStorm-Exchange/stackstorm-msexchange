@@ -1,5 +1,8 @@
 # Change Log
 
+## 1.1.2
+* Remove date checking from item_sensor
+
 ## 1.1.0
 
 * **Add** `save_attachments` action.

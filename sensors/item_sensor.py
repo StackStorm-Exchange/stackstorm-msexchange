@@ -42,21 +42,14 @@ class ItemSensor(PollingSensor):
                 access_type=DELEGATE)
 
     def poll(self):
-        stored_date = self._get_last_date()
-        self._logger.info("Stored Date: {}".format(stored_date))
-        if not stored_date:
-            stored_date = datetime.now()
-        # pylint: disable=no-member
-        start_date = self._timezone.localize(EWSDateTime.from_datetime(stored_date))
         target = self.account.root.get_folder_by_name(self.sensor_folder)
-        items = target.filter(is_read=False).filter(datetime_received__gt=start_date)
+        items = target.filter(is_read=False)
 
         self._logger.info("Found {0} items".format(items.count()))
 
         for newitem in items:
             self._logger.info("Sending trigger for item '{0}'.".format(newitem.subject))
             self._dispatch_trigger_for_new_item(newitem=newitem)
-            self._set_last_date(newitem.datetime_received)
             self._logger.info("Updating read status on item '{0}'.".format(newitem.subject))
             newitem.is_read = True
             newitem.save()
@@ -77,21 +70,6 @@ class ItemSensor(PollingSensor):
     def remove_trigger(self, trigger):
         # This method is called when trigger is deleted
         pass
-
-    def _get_last_date(self):
-        self._last_date = self._sensor_service.get_value(name=self._store_key)
-        if self._last_date is None:
-            return None
-        return datetime.strptime(self._last_date, '%Y-%m-%dT%H:%M:%S')
-
-    def _set_last_date(self, last_date):
-        # Check if the last_date value is an EWSDateTime object
-        if isinstance(last_date, EWSDateTime):
-            self._last_date = last_date.strftime('%Y-%m-%dT%H:%M:%S')
-        else:
-            self._last_date = time.strftime('%Y-%m-%dT%H:%M:%S', last_date)
-        self._sensor_service.set_value(name=self._store_key,
-                                       value=self._last_date)
 
     def _dispatch_trigger_for_new_item(self, newitem):
         trigger = 'msexchange.exchange_new_item'
