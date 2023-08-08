@@ -1,4 +1,4 @@
-exchangelib>=2.2.0,<3.0.0
+exchangelib>=5.0.0,<6.0.0
 python-dateutil>=2.8.1
-pytz==2020.1
+pytz>=2023.0,<2024.0
 tzlocal==2.1
