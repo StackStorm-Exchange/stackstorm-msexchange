@@ -27,6 +27,7 @@ class ItemSensor(PollingSensor):
         )
         self.primary_smtp_address = config["primary_smtp_address"]
         self.sensor_folder = config["sensor_folder"]
+        self._timeout = config.get("timeout", 600)
         try:
             self.server = config["server"]
             self.autodiscover = False if self.server is not None else True
@@ -45,7 +46,7 @@ class ItemSensor(PollingSensor):
             ms_config = Configuration(
                 server=self.server,
                 credentials=self._credentials,
-                retry_policy=FaultTolerance(max_wait=config.get("timeout", 600)),
+                retry_policy=FaultTolerance(max_wait=self._timeout),
             )
             self.account = Account(
                 primary_smtp_address=self.primary_smtp_address,
