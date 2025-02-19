@@ -1,6 +1,11 @@
 # Change Log
 
+## 1.1.3
+
+* Updated files to work with latest CI updates
+
 ## 1.1.2
+
 * Remove date checking from item_sensor
 
 ## 1.1.0

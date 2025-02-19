@@ -1,6 +1,3 @@
-from datetime import datetime
-import time
-
 from st2reactor.sensor.base import PollingSensor
 from exchangelib import Account, ServiceAccount, Configuration, DELEGATE, EWSDateTime, EWSTimeZone
 
