@@ -1,11 +1,13 @@
 [![Build Status](https://circleci.com/gh/StackStorm-Exchange/stackstorm-msexchange.svg?style=shield)](https://circleci.com/gh/StackStorm-Exchange/stackstorm-msexchange)
 
 # <img src="https://raw.githubusercontent.com/StackStorm-Exchange/stackstorm-msexchange/master/icon.png" width="32px" valign="-3px"/> Microsoft Exchange Integration Pack
+
 This pack provides Microsoft Exchange integration to perform simple searches on an Exchange user.
 
 Exchange Server 2010, 2013 and 2016 as well as Office 365 hosted Exchange accounts.
 
 ## Actions
+
 * `do_attachment_directory_maintenance` - Performance maintenance on server directory in which email file attachments are saved.
 * `get_calendar_items` - Get a list of calendar items within a date range
 * `get_folder` - Get information about a folder (mail, contact, meta)

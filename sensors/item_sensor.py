@@ -1,22 +1,32 @@
 from st2reactor.sensor.base import PollingSensor
-from exchangelib import Account, ServiceAccount, Configuration, DELEGATE, EWSDateTime, EWSTimeZone
+from exchangelib import (
+    Account,
+    Credentials,
+    Configuration,
+    DELEGATE,
+    EWSDateTime,
+    EWSTimeZone,
+)
+from exchangelib.protocol import FaultTolerance
 
 
 class ItemSensor(PollingSensor):
     def __init__(self, sensor_service, config=None, poll_interval=None):
-        super(ItemSensor, self).__init__(sensor_service=sensor_service, config=config,
-                                         poll_interval=poll_interval)
+        super(ItemSensor, self).__init__(
+            sensor_service=sensor_service, config=config, poll_interval=poll_interval
+        )
         self._logger = self.sensor_service.get_logger(name=self.__class__.__name__)
         self._stop = False
-        self._store_key = 'exchange.item_sensor_date_str'
-        self._timezone = EWSTimeZone.timezone(config['timezone'])
-        self._credentials = ServiceAccount(
-            username=config['username'],
-            password=config['password'])
-        self.primary_smtp_address = config['primary_smtp_address']
-        self.sensor_folder = config['sensor_folder']
+        self._store_key = "exchange.item_sensor_date_str"
+        self._timezone = EWSTimeZone.timezone(config["timezone"])
+        self._credentials = Credentials(
+            username=config["username"], password=config["password"]
+        )
+        self.primary_smtp_address = config["primary_smtp_address"]
+        self.sensor_folder = config["sensor_folder"]
+        self._timeout = config.get("timeout", 600)
         try:
-            self.server = config['server']
+            self.server = config["server"]
             self.autodiscover = False if self.server is not None else True
         except KeyError:
             self.autodiscover = True
@@ -27,16 +37,20 @@ class ItemSensor(PollingSensor):
                 primary_smtp_address=self.primary_smtp_address,
                 credentials=self._credentials,
                 autodiscover=True,
-                access_type=DELEGATE)
+                access_type=DELEGATE,
+            )
         else:
             ms_config = Configuration(
                 server=self.server,
-                credentials=self._credentials)
+                credentials=self._credentials,
+                retry_policy=FaultTolerance(max_wait=self._timeout),
+            )
             self.account = Account(
                 primary_smtp_address=self.primary_smtp_address,
                 config=ms_config,
                 autodiscover=False,
-                access_type=DELEGATE)
+                access_type=DELEGATE,
+            )
 
     def poll(self):
         target = self.account.root.get_folder_by_name(self.sensor_folder)
@@ -69,9 +83,9 @@ class ItemSensor(PollingSensor):
         pass
 
     def _dispatch_trigger_for_new_item(self, newitem):
-        trigger = 'msexchange.exchange_new_item'
+        trigger = "msexchange.exchange_new_item"
         if isinstance(newitem.datetime_received, EWSDateTime):
-            datetime_received = newitem.datetime_received.strftime('%Y-%m-%dT%H:%M:%S')
+            datetime_received = newitem.datetime_received.strftime("%Y-%m-%dT%H:%M:%S")
         else:
             datetime_received = str(newitem.datetime_received)
 

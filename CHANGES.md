@@ -7,6 +7,7 @@
 ## 1.1.2
 
 * Remove date checking from item_sensor
+* Update exchangelib to 4.3.0
 
 ## 1.1.0
 
